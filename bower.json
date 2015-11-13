@@ -1,0 +1,22 @@
+{
+  "name": "Signup",
+  "version": "0.1.1",
+  "homepage": "https://github.com/solid/solid-signup",
+  "authors": [
+    "Andrei Sambra <andrei@w3.org>"
+  ],
+  "description": "Solid signup application",
+  "license": "MIT",
+  "keywords": "webid, linked data, contacts, address book",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
