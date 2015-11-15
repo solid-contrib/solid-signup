@@ -36,7 +36,7 @@ var init = function() {
   // Availability
   resetAvailability();
 
-  setStep(2);
+  // setStep(2);
 }
 
 var resetAvailability = function() {
@@ -70,7 +70,7 @@ var validateAccount = function() {
   document.querySelector(".username").innerHTML = account;
   if (account.length > 0) {
     document.querySelector(".accountinfo").style.display = "";
-    document.querySelector(".account").classList.remove("disabled");
+    document.querySelector(".check").classList.remove("disabled");
   } else {
     resetAvailability();
   }
