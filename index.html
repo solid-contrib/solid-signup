@@ -19,7 +19,7 @@
 			<div class="status-progress">
         <div class="progression float-left"></div>
 				<ul class="clearfix">
-					<li><a href="#" class="first-bullet">1<span class="progress-info left">Pick a user name</span></a></li>
+					<li><a href="#" class="first-bullet">1<span class="progress-info left">Create an account</span></a></li>
 					<li><a href="#" class="second-bullet">2<span class="progress-info middle">Add some information</span></a></a></li>
 					<li><a href="#" class="third-bullet">3<span class="progress-info right">Issue a certificate (optional)</span></a></li>
 				</ul>
@@ -29,7 +29,7 @@
     <article class="center">
       <form class="pure-form">
           <div id="checkacc" class="first">
-            <input type="text" id="account" name="account" value="" placeholder="User name" onkeyup="updateURI()">
+            <input type="text" id="account" name="account" value="" placeholder="Pick a user name" onkeyup="updateURI()">
             <div class="accountexample">
               Your account: <strong><span class="username"></span></strong>.<span class="domain"></span>
             </div>
@@ -53,8 +53,7 @@
 
 		<footer>
       <div class="center">
-        <a href="#" class="prev button inline" onclick="prevStep()">Prev</a>
-  			<a href="#" class="next button inline" onclick="nextStep()">Next</a>
+  			<a href="#" class="next button" onclick="checkExists()">Check availability</a>
       </div>
 		</footer>
 	</div> <!-- end account setup -->

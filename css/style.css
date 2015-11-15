@@ -184,6 +184,10 @@ input[type=text],input[type=email]  {
 	background: #fff;
 }
 
+.accountexample {
+	padding-top: 20px;
+}
+
 .button {
 	background: #439ec4;
 	border-radius: 5px;
@@ -197,10 +201,9 @@ input[type=text],input[type=email]  {
 	line-height: 2em;
 	margin: 11px auto;
 	padding: 4px 30px 4px 25px;
-	width: 2em;
 }
 
-.button:hover { background: #437dc4; }
+.button:hover { background: #7c4dff; }
 
 .user {
 	border-radius: 10px;

@@ -1,15 +1,20 @@
-var domain = 'databox.me';
+var domain = 'https://databox.me';
 
 
 /* ---- DON'T EDIT BELOW ---- */
-var step = 0;
+var accURL = {};
 
 var init = function() {
-  document.querySelector(".domain").innerHTML = domain;
+
+  var parser = document.createElement('a');
+  parser.href = domain;
+  accURL.host = parser.host; // => "example.com"
+  accURL.path = parser.pathname; // => "/pathname/"
+  accURL.schema = parser.protocol + '//';
+
+  document.querySelector(".domain").innerHTML = accURL.host;
   // Hide example
   document.querySelector(".accountexample").style.display = "none";
-  // Prev button
-  document.querySelector(".prev").style.display = "none";
   // Article
   document.querySelector(".first").style.display = "";
   document.querySelector(".second").style.display = "none";
@@ -26,6 +31,13 @@ var setProgression = function(val) {
   }
 };
 
+var makeURI = function(username) {
+  if (username.length > 0) {
+    return accURL.schema + username + '.' + accURL.host + '/';
+  }
+  return null;
+}
+
 var updateURI = function() {
   var account = document.querySelector("#account").value;
   document.querySelector(".username").innerHTML = account;
@@ -33,15 +45,34 @@ var updateURI = function() {
     document.querySelector(".accountexample").style.display = "";
   } else {
     document.querySelector(".accountexample").style.display = "none";
+    document.querySelector(".next").style.pointerEvents = "none";
   }
-
 };
 
-var setStep = function() {
+var checkExists = function() {
+  var account = document.querySelector("#account").value;
+  if (account.length > 0) {
+    var url = makeURI(account);
+    console.log(url);
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url);
+    http.onreadystatechange = function() {
+        if (this.readyState == this.DONE) {
+          if (this.status === 404) {
+            console.log("available");
+          } else {
+            console.log("exists");
+          }
+        }
+    };
+    http.send();
+  }
+}
+
+var setStep = function(step) {
   console.log("Step: "+step);
   switch(step) {
     case 0:
-      document.querySelector(".prev").style.display = "none";
       // Progression
       setProgression("0%");
       document.querySelector(".first-bullet").classList.remove("completed")
@@ -57,7 +88,6 @@ var setStep = function() {
       document.querySelector(".right").style.display = "none";
       break;
     case 1:
-      document.querySelector(".prev").style.display = "";
       // Progression
       setProgression("50%");
       document.querySelector(".first-bullet").classList.add("completed")
@@ -74,7 +104,6 @@ var setStep = function() {
       break;
     case 2:
       // Navigation
-      document.querySelector(".prev").style.display = "none";
       document.querySelector(".next").innerHTML = "Finish";
       // Progression
       setProgression("100%");
@@ -93,18 +122,6 @@ var setStep = function() {
       break;
   }
 
-}
-
-var prevStep = function() {
-  if (step >= 1) {
-    step--;
-    setStep();
-  }
-}
-
-var nextStep = function() {
-  step++;
-  setStep();
 }
 
 // Init app
