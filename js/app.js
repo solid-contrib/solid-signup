@@ -35,6 +35,8 @@ var init = function() {
   document.querySelector(".right").style.display = "none";
   // Availability
   resetAvailability();
+
+  setStep(2);
 }
 
 var resetAvailability = function() {
@@ -45,8 +47,7 @@ var resetAvailability = function() {
   document.querySelector(".createacc").style.display = "none";
   document.querySelector(".check").style.display = "";
   document.querySelector(".accountinfo").classList.remove('green');
-  document.querySelector(".check").style.pointerEvents = "none";
-  document.querySelector(".createacc").style.pointerEvents = "none";
+  document.querySelector(".check").classList.add("disabled");
   document.querySelector(".createacc").classList.remove("greenbg");
   document.querySelector(".createacc").classList.add("disabled");
 }
@@ -69,6 +70,7 @@ var validateAccount = function() {
   document.querySelector(".username").innerHTML = account;
   if (account.length > 0) {
     document.querySelector(".accountinfo").style.display = "";
+    document.querySelector(".account").classList.remove("disabled");
   } else {
     resetAvailability();
   }
