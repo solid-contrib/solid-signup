@@ -19,9 +19,9 @@
 			<div class="status-progress">
         <div class="progression float-left"></div>
 				<ul class="clearfix">
-					<li><a href="#" class="first-bullet">1<span class="progress-info left">Create an account</span></a></li>
-					<li><a href="#" class="second-bullet">2<span class="progress-info middle">Add some information</span></a></a></li>
-					<li><a href="#" class="third-bullet">3<span class="progress-info right">Issue a certificate (optional)</span></a></li>
+					<li><a class="first-bullet">1<span class="progress-info left">Create an account</span></a></li>
+					<li><a class="second-bullet">2<span class="progress-info middle">Add some information</span></a></a></li>
+					<li><a class="third-bullet">3<span class="progress-info right">Issue a certificate (optional)</span></a></li>
 				</ul>
 			</div> <!-- end status-progress -->
 		</header>
@@ -29,9 +29,42 @@
     <article class="center">
       <form class="pure-form">
           <div id="checkacc" class="first">
-            <input type="text" id="account" name="account" value="" placeholder="Pick a user name" onkeyup="updateURI()">
-            <div class="accountexample">
-              Your account: <strong><span class="username"></span></strong>.<span class="domain"></span>
+            <input type="text" class="account" name="account" value="" placeholder="Pick a user name" oninput="validateAccount()">
+            <div class="accountinfo">
+              Account: <strong><span class="username"></span></strong>.<span class="domain"></span>
+            </div>
+            <div class="taken">
+              is not available
+            </div>
+            <div class="available">
+              is available
+            </div>
+            <div class="email">
+              <input type="email" class="address" name="email" placeholder="Email (recovery)" oninput="validateEmail()">
+              <div>
+                <small>Your email address is used <u>only</u> for account recovery.</small>
+              </div>
+            </div>
+            <div class="buttons center">
+              <a href="#" class="createacc button greenbg" onclick="createAccount()">Create account</a>
+              <a href="#" class="check button" onclick="checkExists()">Check availability</a>
+            </div>
+          </div>
+
+          <div class="first notify successbox">
+            <h1>Success!</h1>
+            <div class="icon icon--order-success svg">
+              <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
+                <g fill="none" stroke="#43C47A" stroke-width="2">
+                  <circle cx="36" cy="36" r="35" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
+                  <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
+                </g>
+              </svg>
+
+            </div>
+            <p>Your account has been created. Please take a moment to provide some extra information about yourself.</p>
+            <div class="buttons center">
+              <a href="#" class="next button" onclick="setStep(2)">Add information</a>
             </div>
           </div>
 
@@ -40,9 +73,10 @@
               <span class="fontawesome-user"></span>
             </div>
             <input type="text" id="name" name="name" value="" placeholder="Full name">
-            <input type="email" id="email" name="email" value="" placeholder="Email (recovery)">
-            <div>
-              <small>The email address will only <br> be used for account recovery.</small>
+
+
+            <div class="buttons center">
+              <a href="#" class="update button" onclick="updateProfile()">Update profile</a>
             </div>
           </div>
 
@@ -50,12 +84,6 @@
           </div>
       </form>
     </article>
-
-		<footer>
-      <div class="center">
-  			<a href="#" class="next button" onclick="checkExists()">Check availability</a>
-      </div>
-		</footer>
 	</div> <!-- end account setup -->
 
   <!-- Local Javascript -->
