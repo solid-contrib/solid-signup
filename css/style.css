@@ -7,7 +7,10 @@
 body {
 	background: #cbd0d4;
 	background-image: url('/images/background.jpg');
-	background-size: cover;
+	background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
 	font-family: "Open Sans", sans-serif;
 	line-height: 1.5em;
 	margin: 0;
