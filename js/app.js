@@ -213,7 +213,7 @@ var loadImageFileAsURL = function() {
   var filesSelected = document.getElementById("inputFileToLoad").files;
   if (filesSelected.length > 0) {
     var fileToLoad = filesSelected[0];
-    var img = document.createElement("img");
+    var img = document.querySelector(".profilepic");
 
     if (fileToLoad.type.match("image.*")) {
       console.log(fileToLoad.size);
@@ -247,16 +247,104 @@ var loadImageFileAsURL = function() {
         var ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, width, height);
 
-        dataURL = canvas.toDataURL("image/jpeg");
-
-        document.querySelector(".profilepic").src = dataURL;
-        document.querySelector(".profilepic").classList.remove('hidden');
+        // show new image
         document.querySelector(".camera").classList.add('hidden');
+        img.classList.remove('hidden');
+
+        // prepare to upload profile image
+        var dataURI = canvas.toDataURL(fileToLoad.type);
+
+
+        // clean up used elements
         delete canvas;
       };
       fileReader.readAsDataURL(fileToLoad);
     }
   }
+};
+
+var updateProfile = function() {
+  console.log("Called update");
+  var profile = {};
+  profile.fullname = document.querySelector('.fullname').value;
+
+  var account = document.querySelector(".account").value;
+  account = "test";
+  if (account.length > 0) {
+    // upload profile picture
+    var dataURI = document.querySelector('.profilepic').src;
+    if (dataURI && dataURI.length > 0) {
+      // convert dataURL to blob (binary)
+      var byteString = atob(dataURI.split(',')[1]);
+      var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+      var ext = mimeString.split('/')[1];
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++)
+      {
+          ia[i] = byteString.charCodeAt(i);
+      }
+
+      var bb = new Blob([ab], { "type": mimeString });
+
+      var fd = new FormData();
+      // fd.append("Filename", 'avatar.'+ext);
+      fd.append("File", bb, 'avatar.'+ext);
+      // xhr request
+      // var url = makeURI(account) + '/profile/avatar.'+ext;
+      var url = "https://deiu.me/Public/test/";
+      var http = new XMLHttpRequest();
+      http.open("POST", url);
+      http.onreadystatechange = function() {
+        if (this.readyState == this.DONE) {
+          if (this.status === 200 || this.status === 201) {
+            // patch profile
+            profile.picture = this.getResponseHeader('Location');
+            uploadProfile(profile);
+          }
+        }
+      };
+      http.send(fd);
+    } else {
+      uploadProfile(profile);
+    }
+  }
+};
+
+var uploadProfile = function(profile) {
+  var url = "https://deiu.me/Public/test/card";
+
+  var query = "INSERT DATA { <>\n"+
+    "<http://purl.org/dc/terms/title> \"Main WebID profile\" ;\n"+
+    "a <http://xmlns.com/foaf/0.1/PersonalProfileDocument> ;\n"+
+    "<http://xmlns.com/foaf/0.1/maker> <#me> ;\n"+
+    "<http://xmlns.com/foaf/0.1/primaryTopic> <#me> ."+
+    " } ;\n";
+
+  query += "INSERT DATA { <#me> a <http://xmlns.com/foaf/0.1/Person> . }";
+
+  if (profile && profile.fullname && profile.fullname.length > 0) {
+    query += " ;\n";
+    query += "INSERT DATA { <#me> <http://xmlns.com/foaf/0.1/name> \""+profile.fullname+"\" . }";
+  }
+
+  if (profile && profile.picture && profile.picture.length > 0) {
+    query += " ;\n";
+    query += "INSERT DATA { <#me> <http://xmlns.com/foaf/0.1/img> <"+profile.picture+"> . }";
+  }
+
+  console.log(profile, query);
+  var http = new XMLHttpRequest();
+  http.open("PATCH", url);
+  http.setRequestHeader('Content-Type', 'application/sparql-update');
+  http.onreadystatechange = function() {
+    if (this.readyState == this.DONE) {
+      if (this.status === 200) {
+
+      }
+    }
+  };
+  http.send(query);
 };
 
 // Init app
