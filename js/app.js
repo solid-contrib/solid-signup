@@ -36,7 +36,7 @@ var init = function() {
   // Availability
   resetAvailability();
 
-  setStep(2);
+  // setStep(2);
 }
 
 var resetAvailability = function() {
@@ -254,7 +254,6 @@ var loadImageFileAsURL = function() {
         // prepare to upload profile image
         var dataURI = canvas.toDataURL(fileToLoad.type);
 
-
         // clean up used elements
         delete canvas;
       };
@@ -269,8 +268,9 @@ var updateProfile = function() {
   profile.fullname = document.querySelector('.fullname').value;
 
   var account = document.querySelector(".account").value;
-  account = "test";
   if (account.length > 0) {
+    var url = makeURI(account) + '/profile/';
+    profile.url = url;
     // upload profile picture
     var dataURI = document.querySelector('.profilepic').src;
     if (dataURI && dataURI.length > 0) {
@@ -288,11 +288,10 @@ var updateProfile = function() {
       var bb = new Blob([ab], { "type": mimeString });
 
       var fd = new FormData();
-      // fd.append("Filename", 'avatar.'+ext);
       fd.append("File", bb, 'avatar.'+ext);
       // xhr request
-      // var url = makeURI(account) + '/profile/avatar.'+ext;
-      var url = "https://deiu.me/Public/test/";
+      url += 'avatar.'+ext;
+      // var url = "https://deiu.me/Public/test/";
       var http = new XMLHttpRequest();
       http.open("POST", url);
       http.onreadystatechange = function() {
@@ -312,7 +311,6 @@ var updateProfile = function() {
 };
 
 var uploadProfile = function(profile) {
-  var url = "https://deiu.me/Public/test/card";
 
   var query = "INSERT DATA { <>\n"+
     "<http://purl.org/dc/terms/title> \"Main WebID profile\" ;\n"+
@@ -335,12 +333,12 @@ var uploadProfile = function(profile) {
 
   console.log(profile, query);
   var http = new XMLHttpRequest();
-  http.open("PATCH", url);
+  http.open("PATCH", profile.url+'card');
   http.setRequestHeader('Content-Type', 'application/sparql-update');
   http.onreadystatechange = function() {
     if (this.readyState == this.DONE) {
       if (this.status === 200) {
-
+        console.log("Save profile!");
       }
     }
   };
