@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Account Setup</title>
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto">
     <link rel="stylesheet" href="css/style.css">
   	<title>Account Setup</title>
 
@@ -16,7 +16,7 @@
 			<div class="status-progress">
         <div class="progression float-left"></div>
 				<ul class="clearfix">
-					<li><a class="first-bullet">1<span class="progress-info left">Create the account</span></a></li>
+					<li><a class="first-bullet">1<span class="progress-info left">Create your account</span></a></li>
 					<li><a class="second-bullet">2<span class="progress-info middle">Add some information</span></a></a></li>
 					<li><a class="third-bullet">3<span class="progress-info right">Issue a certificate (optional)</span></a></li>
 				</ul>
@@ -28,7 +28,7 @@
           <div id="checkacc" class="first">
             <input type="text" class="account" name="account" value="" placeholder="Pick a user name" oninput="validateAccount()">
             <div class="accountinfo">
-              Account: <strong><span class="username"></span></strong>.<span class="domain"></span>
+              <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
             </div>
             <div class="taken">
               is not available
@@ -39,7 +39,7 @@
             <div class="email">
               <input type="email" class="address" name="email" placeholder="Email (login/recovery)" oninput="validateEmail()">
               <div>
-                <small>Your email address is used <u>only</u> for account recovery.</small>
+                <small>Your email address is used <u>only</u> for login and account recovery.</small>
               </div>
             </div>
             <div class="buttons center">
@@ -61,14 +61,16 @@
             </div>
             <p>Your account has been created. Please take a moment to provide some extra information about yourself.</p>
             <div class="buttons center">
-              <a href="#" class="next button" onclick="setStep(2)">Add information</a>
+              <a href="#" class="next button" onclick="setStep(2)">Next step</a>
             </div>
           </div>
 
           <div id="addinfo" class="second">
             <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
-            <a href='#' class='camera-wrap' onclick="clickFileInput()">
-              <span class='camera'></span>
+            <a href='#' onclick="clickFileInput()">
+              <div class="camera-wrap">
+                <span class='camera'></span>
+              </div>
               <img class="profilepic hidden">
             </a>
             <input type="text" class="fullname" name="name" value="" placeholder="Type your full name">

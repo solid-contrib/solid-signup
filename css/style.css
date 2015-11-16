@@ -182,13 +182,13 @@ input[type=text],input[type=email]  {
 
 .available {
 	padding: 5px;
-	font-size: 1.5rem;
+	/*font-size: 1.5rem;*/
 	color: #43C47A;
 }
 
 .taken {
 	padding-top: 10px;
-	font-size: 1.5rem;
+	/*font-size: 1.5rem;*/
 	color: red;
 }
 
@@ -358,18 +358,14 @@ input[type=text],input[type=email]  {
 	display: inline-block;
 }
 
-.hidden {
-	display: none;
-}
-
 /* picture placeholder */
 .profilepic {
     position: relative;
-    top: -5em;
-	float: left;
-	width: 5em;
-	height: 5em;
-	border-radius: 50%;
+    display: block;
+    width: 10em;
+    border: solid 0.075em #ddd;
+    margin: 0 auto 0.75em auto;
+    border-radius: 50%;
 }
 
 .camera-wrap {
@@ -396,6 +392,7 @@ input[type=text],input[type=email]  {
   width: 1em;
   height: 0.6em;
   background: #ababab;
+  z-index: 10;
   transition: transform 0.3s linear;
 }
 .camera:before, .camera:after {

@@ -20,6 +20,7 @@ var init = function() {
     }
   });
 
+  document.querySelector(".schema").innerHTML = accURL.schema;
   document.querySelector(".domain").innerHTML = accURL.host;
   // Hide success
   document.querySelector(".successbox").style.display = "none";
@@ -36,7 +37,7 @@ var init = function() {
   // Availability
   resetAvailability();
 
-  // setStep(2);
+  setStep(2);
 }
 
 var resetAvailability = function() {
@@ -47,6 +48,7 @@ var resetAvailability = function() {
   document.querySelector(".createacc").style.display = "none";
   document.querySelector(".check").style.display = "";
   document.querySelector(".accountinfo").classList.remove('green');
+  document.querySelector(".accountinfo").style.display = "none";
   document.querySelector(".check").classList.add("disabled");
   document.querySelector(".createacc").classList.remove("greenbg");
   document.querySelector(".createacc").classList.add("disabled");
@@ -248,7 +250,7 @@ var loadImageFileAsURL = function() {
         ctx.drawImage(img, 0, 0, width, height);
 
         // show new image
-        document.querySelector(".camera").classList.add('hidden');
+        document.querySelector(".camera-wrap").classList.add('hidden');
         img.classList.remove('hidden');
 
         // prepare to upload profile image
