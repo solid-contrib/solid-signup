@@ -366,6 +366,7 @@ input[type=text],input[type=email]  {
     position: relative;
     display: block;
     width: 10em;
+    height: 10em;
     border: solid 0.075em #ddd;
     margin: 0 auto 0.75em auto;
     border-radius: 50%;

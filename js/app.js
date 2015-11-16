@@ -126,33 +126,6 @@ var checkExists = function() {
   }
 }
 
-var createAccount = function() {
-  var account = document.querySelector(".account").value;
-  if (account.length > 0) {
-    var url = makeURI(account) + cardPath;
-
-    var query = "<> a <http://xmlns.com/foaf/0.1/PersonalProfileDocument> ;\n"+
-    "<http://purl.org/dc/terms/title> \"Main WebID profile\" ;\n"+
-    "<http://xmlns.com/foaf/0.1/maker> <#me> ;\n"+
-    "<http://xmlns.com/foaf/0.1/primaryTopic> <#me> .\n\n"+
-    "<#me> a <http://xmlns.com/foaf/0.1/Person> .";
-
-    var http = new XMLHttpRequest();
-    http.open('PUT', url);
-    http.setRequestHeader('Content-Type', 'text/turtle');
-    http.onreadystatechange = function() {
-        if (this.readyState == this.DONE) {
-          if (this.status === 200 || this.status === 201) {
-            accountDone();
-          } else {
-            console.log('Error creating WebID at '+url);
-          }
-        }
-    };
-    http.send(query);
-  }
-}
-
 var accountDone = function() {
   document.querySelector(".first-bullet").classList.add("completed");
   document.querySelector(".createacc").style.display = "none";
@@ -309,18 +282,18 @@ var updateProfile = function() {
           if (this.status === 200 || this.status === 201) {
             // patch profile
             profile.picture = this.getResponseHeader('Location');
-            uploadProfile(profile);
+            patchProfile(profile);
           }
         }
       };
       http.send(fd);
     } else {
-      uploadProfile(profile);
+      patchProfile(profile);
     }
   }
 };
 
-var uploadProfile = function(profile) {
+var patchProfile = function(profile) {
 
   var query = '';
 
@@ -346,6 +319,40 @@ var uploadProfile = function(profile) {
     }
   };
   http.send(query);
+};
+
+
+var createAccount = function() {
+  var account = document.querySelector(".account").value;
+  if (account.length > 0) {
+    var url = makeURI(account) + cardPath;
+
+    var query = "<> a <http://xmlns.com/foaf/0.1/PersonalProfileDocument> ;\n"+
+    "<http://purl.org/dc/terms/title> \"Main WebID profile\" ;\n"+
+    "<http://xmlns.com/foaf/0.1/maker> <#me> ;\n"+
+    "<http://xmlns.com/foaf/0.1/primaryTopic> <#me> .\n\n"+
+    "<#me> a <http://xmlns.com/foaf/0.1/Person> .";
+
+    var http = new XMLHttpRequest();
+    http.open('PUT', url);
+    http.setRequestHeader('Content-Type', 'text/turtle');
+    http.onreadystatechange = function() {
+        if (this.readyState == this.DONE) {
+          if (this.status === 200 || this.status === 201) {
+            // create workspaces
+            createWorkspaces();
+          } else {
+            console.log('Error creating WebID at '+url);
+          }
+        }
+    };
+    http.send(query);
+  }
+}
+
+var createWorkspaces = function(uri) {
+  // done
+            accountDone();
 };
 
 // Init app
