@@ -36,7 +36,7 @@ var init = function() {
   // Availability
   resetAvailability();
 
-  // setStep(2);
+  setStep(2);
 }
 
 var resetAvailability = function() {
@@ -202,8 +202,62 @@ var setStep = function(step) {
 
       break;
   }
+};
 
+var clickFileInput = function() {
+  document.querySelector("#inputFileToLoad").click();
 }
+
+var loadImageFileAsURL = function() {
+  var dataURL;
+  var filesSelected = document.getElementById("inputFileToLoad").files;
+  if (filesSelected.length > 0) {
+    var fileToLoad = filesSelected[0];
+    var img = document.createElement("img");
+
+    if (fileToLoad.type.match("image.*")) {
+      console.log(fileToLoad.size);
+
+      var fileReader = new FileReader();
+      fileReader.onload = function(fileLoadedEvent) {
+        img.src = fileLoadedEvent.target.result;
+        var canvas = document.createElement("canvas");
+        canvas.style.display = "none";
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+
+        var MAX_WIDTH = 300;
+        var MAX_HEIGHT = 300;
+        var width = img.width;
+        var height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+        canvas.width = width;
+        canvas.height = height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        dataURL = canvas.toDataURL("image/jpeg");
+
+        document.querySelector(".profilepic").src = dataURL;
+        document.querySelector(".profilepic").classList.remove('hidden');
+        document.querySelector(".camera").classList.add('hidden');
+        delete canvas;
+      };
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
+};
 
 // Init app
 init();

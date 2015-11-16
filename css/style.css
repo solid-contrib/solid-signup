@@ -68,7 +68,7 @@ input[type=text],input[type=email]  {
   margin: 0 auto;
 }
 
-.notify h1 { margin-bottom: 6px; }
+.notify h1 { margin-bottom: 20px; }
 
 .successbox h1:before, .successbox h1:after { background: #cad8a9; }
 
@@ -356,7 +356,20 @@ input[type=text],input[type=email]  {
 	display: inline-block;
 }
 
+.hidden {
+	display: none;
+}
+
 /* picture placeholder */
+.profilepic {
+    position: relative;
+    top: -5em;
+	float: left;
+	width: 5em;
+	height: 5em;
+	border-radius: 50%;
+}
+
 .camera-wrap {
   transition: background 0.3s linear;
   display: block;
@@ -366,7 +379,7 @@ input[type=text],input[type=email]  {
   background: #eee;
   position: relative;
   border: solid 0.075em #ddd;
-  margin: 0.25em auto 0.75em auto;
+  margin: 0 auto 0.75em auto;
   border-radius: 50%;
 }
 

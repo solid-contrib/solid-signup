@@ -37,7 +37,7 @@
               is available
             </div>
             <div class="email">
-              <input type="email" class="address" name="email" placeholder="Email (recovery)" oninput="validateEmail()">
+              <input type="email" class="address" name="email" placeholder="Email (login/recovery)" oninput="validateEmail()">
               <div>
                 <small>Your email address is used <u>only</u> for account recovery.</small>
               </div>
@@ -66,11 +66,12 @@
           </div>
 
           <div id="addinfo" class="second">
-            <a href='#' class='camera-wrap'>
+            <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
+            <a href='#' class='camera-wrap' onclick="clickFileInput()">
               <span class='camera'></span>
+              <img class="profilepic hidden">
             </a>
-            <input type="text" id="name" name="name" value="" placeholder="Full name">
-
+            <input type="text" id="name" name="name" value="" placeholder="Type your full name">
 
             <div class="buttons center">
               <a href="#" class="update button" onclick="updateProfile()">Update profile</a>
