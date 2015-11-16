@@ -89,6 +89,7 @@ var validateEmail = function() {
   } else {
     document.querySelector(".createacc").style.pointerEvents = "none";
     document.querySelector(".createacc").classList.add("disabled");
+    document.querySelector(".createacc").classList.remove("greenbg");
   }
 };
 
@@ -129,8 +130,16 @@ var createAccount = function() {
   var account = document.querySelector(".account").value;
   if (account.length > 0) {
     var url = makeURI(account) + cardPath;
+
+    var query = "<> a <http://xmlns.com/foaf/0.1/PersonalProfileDocument> ;\n"+
+    "<http://purl.org/dc/terms/title> \"Main WebID profile\" ;\n"+
+    "<http://xmlns.com/foaf/0.1/maker> <#me> ;\n"+
+    "<http://xmlns.com/foaf/0.1/primaryTopic> <#me> .\n\n"+
+    "<#me> a <http://xmlns.com/foaf/0.1/Person> .";
+
     var http = new XMLHttpRequest();
     http.open('PUT', url);
+    http.setRequestHeader('Content-Type', 'text/turtle');
     http.onreadystatechange = function() {
         if (this.readyState == this.DONE) {
           if (this.status === 200 || this.status === 201) {
@@ -140,11 +149,12 @@ var createAccount = function() {
           }
         }
     };
-    http.send();
+    http.send(query);
   }
 }
 
 var accountDone = function() {
+  document.querySelector(".first-bullet").classList.add("completed");
   document.querySelector(".createacc").style.display = "none";
   document.querySelector(".first").style.display = "none";
   document.querySelector(".successbox").style.display = "";
@@ -272,7 +282,7 @@ var updateProfile = function() {
   var account = document.querySelector(".account").value;
   if (account.length > 0) {
     var url = makeURI(account) + '/profile/';
-    profile.url = url;
+    profile.url = url+'card';
     // upload profile picture
     var dataURI = document.querySelector('.profilepic').src;
     if (dataURI && dataURI.length > 0) {
@@ -292,8 +302,6 @@ var updateProfile = function() {
       var fd = new FormData();
       fd.append("File", bb, 'avatar.'+ext);
       // xhr request
-      url += 'avatar.'+ext;
-      // var url = "https://deiu.me/Public/test/";
       var http = new XMLHttpRequest();
       http.open("POST", url);
       http.onreadystatechange = function() {
@@ -314,17 +322,9 @@ var updateProfile = function() {
 
 var uploadProfile = function(profile) {
 
-  var query = "INSERT DATA { <>\n"+
-    "<http://purl.org/dc/terms/title> \"Main WebID profile\" ;\n"+
-    "a <http://xmlns.com/foaf/0.1/PersonalProfileDocument> ;\n"+
-    "<http://xmlns.com/foaf/0.1/maker> <#me> ;\n"+
-    "<http://xmlns.com/foaf/0.1/primaryTopic> <#me> ."+
-    " } ;\n";
-
-  query += "INSERT DATA { <#me> a <http://xmlns.com/foaf/0.1/Person> . }";
+  var query = '';
 
   if (profile && profile.fullname && profile.fullname.length > 0) {
-    query += " ;\n";
     query += "INSERT DATA { <#me> <http://xmlns.com/foaf/0.1/name> \""+profile.fullname+"\" . }";
   }
 
@@ -334,8 +334,9 @@ var uploadProfile = function(profile) {
   }
 
   console.log(profile, query);
+
   var http = new XMLHttpRequest();
-  http.open("PATCH", profile.url+'card');
+  http.open("PATCH", profile.url);
   http.setRequestHeader('Content-Type', 'application/sparql-update');
   http.onreadystatechange = function() {
     if (this.readyState == this.DONE) {
