@@ -37,7 +37,7 @@ var init = function() {
   // Availability
   resetAvailability();
 
-  setStep(2);
+  // setStep(2);
 }
 
 var resetAvailability = function() {
