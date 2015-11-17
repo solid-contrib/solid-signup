@@ -24,8 +24,22 @@
 		</header>
 
     <article class="center">
+      <div class="notify successbox">
+        <h1>Success!</h1>
+        <div class="icon icon-success svg">
+          <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
+            <g fill="none" stroke="#43C47A" stroke-width="2">
+              <circle cx="36" cy="36" r="35" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
+              <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
+            </g>
+          </svg>
+
+        </div>
+        <p class="notifymessage"></p>
+      </div>
+
       <form class="pure-form">
-          <div id="checkacc" class="first">
+          <div class="first">
             <input type="text" class="account" name="account" value="" placeholder="Pick a user name" oninput="validateAccount()">
             <div class="accountinfo">
               <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
@@ -42,30 +56,9 @@
                 <small>Your email address is used <u>only</u> for login and account recovery.</small>
               </div>
             </div>
-            <div class="buttons center">
-              <a href="#" class="createacc button greenbg" onclick="createAccount()">Create account</a>
-              <a href="#" class="check button" onclick="checkExists()">Check availability</a>
-            </div>
           </div>
 
-          <div class="first notify successbox">
-            <h1>Success!</h1>
-            <div class="icon icon-success svg">
-              <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
-                <g fill="none" stroke="#43C47A" stroke-width="2">
-                  <circle cx="36" cy="36" r="35" style="stroke-dasharray:240px, 240px; stroke-dashoffset: 480px;"></circle>
-                  <path d="M17.417,37.778l9.93,9.909l25.444-25.393" style="stroke-dasharray:50px, 50px; stroke-dashoffset: 0px;"></path>
-                </g>
-              </svg>
-
-            </div>
-            <p>Your account has been created. Please take a moment to provide some extra information about yourself.</p>
-            <div class="buttons center">
-              <a href="#" class="next button" onclick="setStep(2)">Next step</a>
-            </div>
-          </div>
-
-          <div id="addinfo" class="second">
+          <div class="second">
             <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
             <a href='#' onclick="clickFileInput()">
               <div class="camera-wrap">
@@ -74,16 +67,22 @@
               <img class="profilepic hidden">
             </a>
             <input type="text" class="fullname" name="name" value="" placeholder="Type your full name">
-
-            <div class="buttons center">
-              <a href="#" class="update button" onclick="updateProfile()">Update profile</a>
-            </div>
           </div>
 
-          <div id="addcredentials" class="third">
+          <div class="third">
           </div>
       </form>
     </article>
+
+    <footer>
+      <div class="buttons center">
+        <a href="#" class="createacc button greenbg" onclick="createAccount()">Create account</a>
+        <a href="#" class="check button" onclick="checkExists()">Check availability</a>
+        <a href="#" class="next button" onclick="setStep(2)">Next step</a>
+        <a href="#" class="update button" onclick="updateProfile()">Update profile</a>
+        <a href="#" class="final button" onclick="setStep(3)">Final step</a>
+      </div>
+    </footer>
 	</div> <!-- end account setup -->
 
   <!-- Local Javascript -->

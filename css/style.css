@@ -289,13 +289,12 @@ input[type=text],input[type=email]  {
 .account-setup footer {
 	background: #fff;
 	border-radius: 0 0 10px 10px;
-	padding: 24px 14px;
+	padding: 0px 14px;
 }
 
 .account-setup article {
 	padding: 20px 5px 5px;
 	background: #fff;
-	border-radius: 0 0 10px 10px;
 }
 
 .accountexample {

@@ -22,22 +22,11 @@ var init = function() {
 
   document.querySelector(".schema").innerHTML = accURL.schema;
   document.querySelector(".domain").innerHTML = accURL.host;
-  // Hide success
-  document.querySelector(".successbox").style.display = "none";
-  // Hide example
-  document.querySelector(".accountinfo").style.display = "none";
-  // Article
-  document.querySelector(".first").style.display = "";
-  document.querySelector(".second").style.display = "none";
-  document.querySelector(".third").style.display = "none";
-  // Tooltips
-  document.querySelector(".left").style.display = "";
-  document.querySelector(".middle").style.display = "none";
-  document.querySelector(".right").style.display = "none";
+
   // Availability
   resetAvailability();
 
-  // setStep(2);
+  setStep(1);
 }
 
 var resetAvailability = function() {
@@ -131,6 +120,7 @@ var accountDone = function() {
   document.querySelector(".createacc").style.display = "none";
   document.querySelector(".first").style.display = "none";
   document.querySelector(".successbox").style.display = "";
+  document.querySelector(".notifymessage").innerHTML = "Your account has been created. Please take a moment to provide some extra information about yourself.";
   document.querySelector(".next").style.display = "";
 };
 
@@ -143,6 +133,13 @@ var setStep = function(step) {
       document.querySelector(".first-bullet").classList.remove("completed");
       document.querySelector(".second-bullet").classList.remove("completed");
       document.querySelector(".third-bullet").classList.remove("completed");
+      // Hide buttons
+      document.querySelector(".update").style.display = "none";
+      document.querySelector(".final").style.display = "none";
+      // Hide success
+      document.querySelector(".successbox").style.display = "none";
+      // Hide example
+      document.querySelector(".accountinfo").style.display = "none";
       // Article
       document.querySelector(".first").style.display = "";
       document.querySelector(".second").style.display = "none";
@@ -158,6 +155,11 @@ var setStep = function(step) {
       document.querySelector(".first-bullet").classList.add("completed");
       document.querySelector(".second-bullet").classList.remove("completed");
       document.querySelector(".third-bullet").classList.remove("completed");
+      // Hide buttons
+      document.querySelector(".check").style.display = "none";
+      document.querySelector(".update").style.display = "";
+      document.querySelector(".next").style.display = "none";
+      document.querySelector(".final").style.display = "none";
       // Article
       document.querySelector(".first").style.display = "none";
       document.querySelector(".second").style.display = "";
@@ -169,14 +171,17 @@ var setStep = function(step) {
       document.querySelector(".right").style.display = "none";
       break;
     case 3:
-      // Navigation
-      document.querySelector(".check").innerHTML = "Finish";
       // Progression
       setProgression("100%");
       document.querySelector(".first-bullet").classList.add("completed");
       document.querySelector(".second-bullet").classList.add("completed");
       document.querySelector(".third-bullet").classList.remove("completed");
+      // Hide buttons
+      document.querySelector(".update").style.display = "none";
+      document.querySelector(".next").style.display = "none";
+      document.querySelector(".final").style.display = "none";
       // Article
+      document.querySelector(".successbox").style.display = "none";
       document.querySelector(".first").style.display = "none";
       document.querySelector(".second").style.display = "none";
       document.querySelector(".third").style.display = "";
@@ -315,12 +320,21 @@ var patchProfile = function(profile) {
     if (this.readyState == this.DONE) {
       if (this.status === 200) {
         console.log("Save profile!");
+        profileDone();
       }
     }
   };
   http.send(query);
 };
 
+var profileDone = function() {
+  document.querySelector(".second").style.display = "none";
+  document.querySelector(".update").style.display = "none";
+  document.querySelector(".successbox").style.display = "";
+  document.querySelector(".notifymessage").innerHTML = "Your profile has been updated. You can now optionally generate a certificate.";
+  document.querySelector(".second-bullet").classList.add("completed");
+  document.querySelector(".final").style.display = "";
+};
 
 var createAccount = function() {
   var account = document.querySelector(".account").value;
@@ -352,7 +366,7 @@ var createAccount = function() {
 
 var createWorkspaces = function(uri) {
   // done
-            accountDone();
+  accountDone();
 };
 
 // Init app
