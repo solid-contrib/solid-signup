@@ -3,13 +3,13 @@ var domain = 'https://databox.me';
 
 /* ---- DON'T EDIT BELOW ---- */
 var accURL = {};
-var cardPath = "/profile/card";
+var cardPath = "profile/card";
 
 var init = function() {
   // Prepare domain
   var parser = document.createElement('a');
   parser.href = domain;
-  accURL.host = parser.host; // => "example.com"
+  accURL.host = parser.host + '/'; // => "example.com"
   accURL.path = parser.pathname; // => "/pathname/"
   accURL.schema = parser.protocol + '//';
 
@@ -99,7 +99,7 @@ var isTaken = function(url) {
 var checkExists = function() {
   var account = document.querySelector(".account").value;
   if (account.length > 0) {
-    var url = makeURI(account) + '/';
+    var url = makeURI(account);
     var http = new XMLHttpRequest();
     http.open('HEAD', url);
     http.onreadystatechange = function() {
@@ -259,7 +259,7 @@ var updateProfile = function() {
 
   var account = document.querySelector(".account").value;
   if (account.length > 0) {
-    var url = makeURI(account) + '/profile/';
+    var url = makeURI(account) + 'profile/';
     profile.url = url+'card';
     // upload profile picture
     var dataURI = document.querySelector('.profilepic').src;
@@ -299,7 +299,6 @@ var updateProfile = function() {
 };
 
 var patchProfile = function(profile) {
-
   var query = '';
 
   if (profile && profile.fullname && profile.fullname.length > 0) {
@@ -311,15 +310,13 @@ var patchProfile = function(profile) {
     query += "INSERT DATA { <#me> <http://xmlns.com/foaf/0.1/img> <"+profile.picture+"> . }";
   }
 
-  console.log(profile, query);
-
   var http = new XMLHttpRequest();
   http.open("PATCH", profile.url);
   http.setRequestHeader('Content-Type', 'application/sparql-update');
   http.onreadystatechange = function() {
     if (this.readyState == this.DONE) {
       if (this.status === 200) {
-        console.log("Save profile!");
+        console.log("Updated profile!");
         profileDone();
       }
     }
@@ -338,36 +335,25 @@ var profileDone = function() {
 
 var createAccount = function() {
   var account = document.querySelector(".account").value;
-  if (account.length > 0) {
-    var url = makeURI(account) + cardPath;
-
-    var query = "<> a <http://xmlns.com/foaf/0.1/PersonalProfileDocument> ;\n"+
-    "<http://purl.org/dc/terms/title> \"Main WebID profile\" ;\n"+
-    "<http://xmlns.com/foaf/0.1/maker> <#me> ;\n"+
-    "<http://xmlns.com/foaf/0.1/primaryTopic> <#me> .\n\n"+
-    "<#me> a <http://xmlns.com/foaf/0.1/Person> .";
-
+  var email = document.querySelector(".address").value;
+  if (account.length > 0 && email.length > 0) {
+    var url = "https://databox.me/,system/newAccount";
+    var data = "username="+account+"&email="+email;
     var http = new XMLHttpRequest();
-    http.open('PUT', url);
-    http.setRequestHeader('Content-Type', 'text/turtle');
+    http.open('POST', url);
+    http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function() {
         if (this.readyState == this.DONE) {
-          if (this.status === 200 || this.status === 201) {
-            // create workspaces
-            createWorkspaces();
+          if (this.status === 200) {
+            accountDone();
           } else {
-            console.log('Error creating WebID at '+url);
+            console.log('Error creating account at '+url);
           }
         }
     };
-    http.send(query);
+    http.send(data);
   }
 }
-
-var createWorkspaces = function(uri) {
-  // done
-  accountDone();
-};
 
 // Init app
 init();
