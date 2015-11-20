@@ -5,8 +5,7 @@
 /* ---------- GENERAL ---------- */
 
 body {
-	background: linear-gradient(130deg, #6fe3e7, #4fb8d9 25%, #5648c1);
-	/*background-image: url('../images/background.jpg');*/
+	background: linear-gradient(130deg, rgba(11, 36, 216, 0.5), rgba(167, 158, 239, 0.5) 25%, rgba(72, 87, 193, 1));
 	background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;

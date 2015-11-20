@@ -1,15 +1,15 @@
-var domain = 'https://databox.me';
-var accountEndpoint = ',system/newAccount';
-var certEndpoint = ',system/newCert';
+/* ---- CONFIGURATION ----- */
+var DOMAIN = 'https://databox.me';
+var ACCOUNT_ENDPOINT = ',system/newAccount';
+var CERT_ENDPOINT = ',system/newCert';
 
 /* ---- DON'T EDIT BELOW ---- */
 var accURL = {};
-var cardPath = "profile/card";
 
 var init = function() {
   // Prepare domain
   var parser = document.createElement('a');
-  parser.href = domain;
+  parser.href = DOMAIN;
   accURL.host = parser.host + '/'; // => "example.com"
   accURL.path = parser.pathname; // => "/pathname/"
   accURL.schema = parser.protocol + '//';
@@ -354,7 +354,7 @@ var createAccount = function() {
   var account = document.querySelector(".account").value;
   var email = document.querySelector(".address").value;
   if (account.length > 0 && email.length > 0) {
-    var url = makeURI(account) + accountEndpoint;
+    var url = makeURI(account) + ACCOUNT_ENDPOINT;
     var data = "username="+account+"&email="+email;
     var http = new XMLHttpRequest();
     http.open('POST', url);
@@ -379,7 +379,7 @@ var createAccount = function() {
 
 var genCert = function() {
   var account = document.querySelector(".account").value;
-  document.querySelector(".spkacform").setAttribute("action", makeURI(account)+certEndpoint);
+  document.querySelector(".spkacform").setAttribute("action", makeURI(account)+CERT_ENDPOINT);
   document.querySelector(".spkacform").submit();
   certDone();
 };
