@@ -1,6 +1,18 @@
 @charset "utf-8";
 /* CSS Document */
 
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Roboto Light'), local('Roboto-Light'), url(fonts/roboto-light.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Roboto'), local('Roboto-Regular'), url(fonts/roboto-regular.ttf) format('truetype');
+}
 
 /* ---------- GENERAL ---------- */
 
@@ -10,9 +22,12 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-	font-family: "Open Sans", sans-serif;
 	line-height: 1.5em;
 	margin: 0;
+}
+
+html {
+	font-family: 'Roboto', sans-serif;
 }
 
 a { text-decoration: none; }
