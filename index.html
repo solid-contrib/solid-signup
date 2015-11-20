@@ -50,7 +50,7 @@
             is available
           </div>
           <div class="email">
-            <input type="email" class="address" name="email" placeholder="Email (recovery)" oninput="validateEmail()">
+            <input type="email" class="address" name="email" placeholder="Email (recovery)">
             <div>
               <small>
                 Your email address will be used <u>only</u> for account recovery.
@@ -79,7 +79,10 @@
           <keygen id="spkacWebID" name="spkac" challenge="randomchars" keytype="rsa" hidden></keygen>
           <iframe class="hidden" name="spkacframe"></iframe>
           <input type="text" class="webid hidden" name="webid">
-          <input type="text" class="certname" name="name" value="" placeholder="Pick a certificate name" required title="Certificate name required">
+          <label>
+            Please pick a certificate name
+            <input type="text" class="certname" name="name" value="" placeholder="Your name" required title="Certificate name required">
+          </label>
         </form>
       </div>
     </article>
@@ -89,8 +92,8 @@
         <a href="#" class="createacc button greenbg" onclick="createAccount()">Create account</a>
         <a href="#" class="check button" onclick="checkExists()">Check availability</a>
         <a href="#" class="next button" onclick="setStep(2)">Next step</a>
-        <a href="#" class="update button" onclick="updateProfile()">Update profile</a>
-        <a href="#" class="final button" onclick="setStep(3)">Final step</a>
+        <a href="#" class="update button" onclick="updateProfile()">Update profile (or skip)</a>
+        <a href="#" class="final button" onclick="setStep(3)">Next and final step</a>
         <a href="#" class="issue button" onclick="genCert()">Issue certificate</a>
       </div>
     </footer>

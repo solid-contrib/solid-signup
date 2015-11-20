@@ -70,25 +70,14 @@ var validateAccount = function() {
     document.querySelector(".username").innerHTML = account;
     document.querySelector(".accountinfo").style.display = "";
     document.querySelector(".check").classList.remove("disabled");
+    document.querySelector(".createacc").style.pointerEvents = "";
+    document.querySelector(".createacc").classList.add("greenbg");
+    document.querySelector(".createacc").classList.remove("disabled");
   } else {
     resetAvailability();
   }
 };
 
-var validateEmail = function() {
-  // var account = document.querySelector(".account").value;
-  var address = document.querySelector(".address").value;
-  var re = /\S+@\S+\.\S+/;
-  if (re.test(address)) {
-    document.querySelector(".createacc").style.pointerEvents = "";
-    document.querySelector(".createacc").classList.add("greenbg");
-    document.querySelector(".createacc").classList.remove("disabled");
-  } else {
-    document.querySelector(".createacc").style.pointerEvents = "none";
-    document.querySelector(".createacc").classList.add("disabled");
-    document.querySelector(".createacc").classList.remove("greenbg");
-  }
-};
 
 var isAvailable = function(url) {
   document.querySelector(".available").style.display = "";
@@ -205,7 +194,15 @@ var setStep = function(step) {
       document.querySelector(".left").style.display = "none";
       document.querySelector(".middle").style.display = "none";
       document.querySelector(".right").style.display = "";
-
+      // Set cert name
+      var certname = document.querySelector('.fullname').value;
+      if (certname.length === 0) {
+        certname = document.querySelector('.account').value;
+        if (certname.length === 0) {
+          certname = "My WebID";
+        }
+      }
+      document.querySelector(".certname").value = certname + "'s certificate";
       break;
   }
 };
@@ -315,29 +312,36 @@ var updateProfile = function() {
 
 var patchProfile = function(profile) {
   var query = '';
+  var toUpdate = 0;
 
   if (profile && profile.fullname && profile.fullname.length > 0) {
+    toUpdate++;
     query += "INSERT DATA { <#me> <http://xmlns.com/foaf/0.1/name> \""+profile.fullname+"\" . }";
   }
 
   if (profile && profile.picture && profile.picture.length > 0) {
+    toUpdate++;
     query += " ;\n";
     query += "INSERT DATA { <#me> <http://xmlns.com/foaf/0.1/img> <"+profile.picture+"> . }";
   }
 
-  var http = new XMLHttpRequest();
-  http.open("PATCH", profile.url);
-  http.setRequestHeader('Content-Type', 'application/sparql-update');
-  http.withCredentials = true;
-  http.onreadystatechange = function() {
-    if (this.readyState == this.DONE) {
-      if (this.status === 200) {
-        console.log("Updated profile!");
-        profileDone();
+  if (toUpdate > 0) {
+    var http = new XMLHttpRequest();
+    http.open("PATCH", profile.url);
+    http.setRequestHeader('Content-Type', 'application/sparql-update');
+    http.withCredentials = true;
+    http.onreadystatechange = function() {
+      if (this.readyState == this.DONE) {
+        if (this.status === 200) {
+          console.log("Updated profile!");
+          profileDone();
+        }
       }
-    }
-  };
-  http.send(query);
+    };
+    http.send(query);
+  } else {
+    setStep(3);
+  }
 };
 
 var profileDone = function() {
@@ -347,13 +351,12 @@ var profileDone = function() {
   document.querySelector(".second-bullet").classList.add("completed");
   document.querySelector(".notifymessage").innerHTML = "Your profile has been updated. You can now optionally generate a certificate.";
   document.querySelector(".final").style.display = "";
-  document.querySelector(".certname").value = document.querySelector('.fullname').value + "'s certificate";
 };
 
 var createAccount = function() {
   var account = document.querySelector(".account").value;
   var email = document.querySelector(".address").value;
-  if (account.length > 0 && email.length > 0) {
+  if (account.length > 0) {
     var url = makeURI(account) + ACCOUNT_ENDPOINT;
     var data = "username="+account+"&email="+email;
     var http = new XMLHttpRequest();
@@ -379,6 +382,9 @@ var createAccount = function() {
 
 var genCert = function() {
   var account = document.querySelector(".account").value;
+  if (document.querySelector(".certname").value.length === 0) {
+    document.querySelector(".certname").value = "My WebID";
+  }
   document.querySelector(".spkacform").setAttribute("action", makeURI(account)+CERT_ENDPOINT);
   document.querySelector(".spkacform").submit();
   certDone();
