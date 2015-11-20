@@ -18,26 +18,27 @@ body {
 
 a { text-decoration: none; }
 
-ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+.clearfix {
+	position: relative;
+	top: -11px;
 }
-
-.clearfix { *zoom: 1; } /* For IE 6/7 */
-.clearfix:before, .clearfix:after {
-	content: "";
-	display: table;
-}
-.clearfix:after { clear: both; }
 
 .hidden {
 	display: none!important;
 }
 
+.inline-block {
+	display: inline-block;
+}
+
 .float-left {
 	position: relative;
-	float: left
+	float: left;
+}
+
+.float-right {
+	position: relative;
+	float: right;
 }
 
 .white {
@@ -174,7 +175,8 @@ input[type=text],input[type=email]  {
 	margin-bottom: 20px;
 	margin-left: auto;
 	margin-right: auto;
-	width: 400px;
+	padding: 0 10px 0 10px;
+    max-width: 400px;
 }
 
 .account-setup header {
@@ -202,6 +204,7 @@ input[type=text],input[type=email]  {
 	margin: 9px 0;
 	position: relative;
 	width: 100%;
+	text-align: center;
 }
 .status-progress .progression {
 	position: absolute!important;
@@ -212,19 +215,6 @@ input[type=text],input[type=email]  {
 	top: 0;
 	z-index: 5;
 }
-
-.status-progress ul {
-	position: absolute;
-	top: -11px;
-}
-
-.status-progress li {
-	float: left;
-	margin: 0 72px;
-}
-
-.status-progress li:first-child { margin-left: 0; }
-.status-progress li:last-child { margin-right: 0; }
 
 .status-progress a {
 	background: #439ec4;

@@ -179,6 +179,10 @@ var setStep = function(step) {
       document.querySelector(".left").style.display = "none";
       document.querySelector(".middle").style.display = "";
       document.querySelector(".right").style.display = "none";
+      // Focus
+      window.setTimeout(function () {
+        document.querySelector(".fullname").focus();
+      }, 0);
       break;
     case 3:
       // Progression
