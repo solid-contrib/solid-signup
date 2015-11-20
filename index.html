@@ -38,40 +38,51 @@
         <p class="notifymessage"></p>
       </div>
 
-      <form class="pure-form">
-          <div class="first">
-            <input type="text" class="account" name="username" value="" placeholder="Pick a user name" oninput="validateAccount()" autofocus>
-            <div class="accountinfo">
-              <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
-            </div>
-            <div class="taken">
-              is not available
-            </div>
-            <div class="available">
-              is available
-            </div>
-            <div class="email">
-              <input type="email" class="address" name="email" placeholder="Email (login/recovery)" oninput="validateEmail()">
-              <div>
-                <small>Your email address is used <u>only</u> for login and account recovery.</small>
-              </div>
+      <div class="first">
+        <form class="pure-form">
+          <input type="text" class="account" name="username" value="" placeholder="Pick a user name" oninput="validateAccount()" autofocus>
+          <div class="accountinfo">
+            <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
+          </div>
+          <div class="taken">
+            is not available
+          </div>
+          <div class="available">
+            is available
+          </div>
+          <div class="email">
+            <input type="email" class="address" name="email" placeholder="Email (recovery)" oninput="validateEmail()">
+            <div>
+              <small>
+                Your email address is used <u>only</u> for account recovery.
+                <br>
+                Without it, you won't regain access to your account.
+              </small>
             </div>
           </div>
+        </form>
+      </div>
 
-          <div class="second">
-            <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
-            <a href='#' onclick="clickFileInput()">
-              <div class="camera-wrap">
-                <span class='camera'></span>
-              </div>
-              <img class="profilepic hidden">
-            </a>
-            <input type="text" class="fullname" name="name" value="" placeholder="Type your full name">
-          </div>
 
-          <div class="third">
+      <div class="second">
+        <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
+        <a href='#' onclick="clickFileInput()">
+          <div class="camera-wrap">
+            <span class='camera'></span>
           </div>
-      </form>
+          <img class="profilepic hidden">
+        </a>
+        <input type="text" class="fullname" name="name" value="" placeholder="Type your full name">
+      </div>
+
+      <div class="third">
+        <form class="spkacform" method="POST" target="spkacframe">
+          <keygen id="spkacWebID" name="spkac" challenge="randomchars" keytype="rsa" hidden></keygen>
+          <iframe class="hidden" name="spkacframe"></iframe>
+          <input type="text" class="webid hidden" name="webid">
+          <input type="text" class="certname" name="name" value="" placeholder="Pick a certificate name">
+        </form>
+      </div>
     </article>
 
     <footer>
@@ -81,6 +92,7 @@
         <a href="#" class="next button" onclick="setStep(2)">Next step</a>
         <a href="#" class="update button" onclick="updateProfile()">Update profile</a>
         <a href="#" class="final button" onclick="setStep(3)">Final step</a>
+        <a href="#" class="issue button" onclick="genCert()">Issue certificate</a>
       </div>
     </footer>
 	</div> <!-- end account setup -->

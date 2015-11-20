@@ -1,5 +1,6 @@
 var domain = 'https://databox.me';
-
+var accountEndpoint = ',system/newAccount';
+var certEndpoint = ',system/newCert';
 
 /* ---- DON'T EDIT BELOW ---- */
 var accURL = {};
@@ -136,6 +137,7 @@ var setStep = function(step) {
       // Hide buttons
       document.querySelector(".update").style.display = "none";
       document.querySelector(".final").style.display = "none";
+      document.querySelector(".issue").style.display = "none";
       // Hide success
       document.querySelector(".successbox").style.display = "none";
       // Hide example
@@ -157,9 +159,10 @@ var setStep = function(step) {
       document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
       document.querySelector(".check").style.display = "none";
-      document.querySelector(".update").style.display = "";
       document.querySelector(".next").style.display = "none";
       document.querySelector(".final").style.display = "none";
+      document.querySelector(".issue").style.display = "none";
+      document.querySelector(".update").style.display = "";
       // Article
       document.querySelector(".first").style.display = "none";
       document.querySelector(".second").style.display = "";
@@ -177,9 +180,11 @@ var setStep = function(step) {
       document.querySelector(".second-bullet").classList.add("completed");
       document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
+      document.querySelector(".check").style.display = "none";
       document.querySelector(".update").style.display = "none";
       document.querySelector(".next").style.display = "none";
       document.querySelector(".final").style.display = "none";
+      document.querySelector(".issue").style.display = "";
       // Article
       document.querySelector(".successbox").style.display = "none";
       document.querySelector(".first").style.display = "none";
@@ -282,6 +287,7 @@ var updateProfile = function() {
       // xhr request
       var http = new XMLHttpRequest();
       http.open("POST", url);
+      http.withCredentials = true;
       http.onreadystatechange = function() {
         if (this.readyState == this.DONE) {
           if (this.status === 200 || this.status === 201) {
@@ -313,6 +319,7 @@ var patchProfile = function(profile) {
   var http = new XMLHttpRequest();
   http.open("PATCH", profile.url);
   http.setRequestHeader('Content-Type', 'application/sparql-update');
+  http.withCredentials = true;
   http.onreadystatechange = function() {
     if (this.readyState == this.DONE) {
       if (this.status === 200) {
@@ -328,23 +335,29 @@ var profileDone = function() {
   document.querySelector(".second").style.display = "none";
   document.querySelector(".update").style.display = "none";
   document.querySelector(".successbox").style.display = "";
-  document.querySelector(".notifymessage").innerHTML = "Your profile has been updated. You can now optionally generate a certificate.";
   document.querySelector(".second-bullet").classList.add("completed");
+  document.querySelector(".notifymessage").innerHTML = "Your profile has been updated. You can now optionally generate a certificate.";
   document.querySelector(".final").style.display = "";
+  document.querySelector(".certname").value = document.querySelector('.fullname').value + "'s certificate";
 };
 
 var createAccount = function() {
   var account = document.querySelector(".account").value;
   var email = document.querySelector(".address").value;
   if (account.length > 0 && email.length > 0) {
-    var url = "https://databox.me/,system/newAccount";
+    var url = makeURI(account) + accountEndpoint;
     var data = "username="+account+"&email="+email;
     var http = new XMLHttpRequest();
     http.open('POST', url);
+    http.withCredentials = true;
     http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function() {
         if (this.readyState == this.DONE) {
           if (this.status === 200) {
+            var webid = this.getResponseHeader("User");
+            if (webid && webid.length > 0) {
+              document.querySelector(".webid").value = webid;
+            }
             accountDone();
           } else {
             console.log('Error creating account at '+url);
@@ -353,7 +366,22 @@ var createAccount = function() {
     };
     http.send(data);
   }
-}
+};
+
+var genCert = function() {
+  var account = document.querySelector(".account").value;
+  document.querySelector(".spkacform").setAttribute("action", makeURI(account)+certEndpoint);
+  document.querySelector(".spkacform").submit();
+  certDone();
+};
+
+var certDone = function() {
+  document.querySelector(".third").style.display = "none";
+  document.querySelector(".issue").style.display = "none";
+  document.querySelector(".notifymessage").innerHTML = "You're all set!";
+  document.querySelector(".successbox").style.display = "";
+  document.querySelector(".third-bullet").classList.add("completed");
+};
 
 // Init app
 init();
