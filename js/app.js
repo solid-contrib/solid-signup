@@ -28,6 +28,8 @@ var init = function() {
   resetAvailability();
 
   setStep(1);
+
+  document.querySelector(".account").scrollIntoView();
 }
 
 var resetAvailability = function() {
@@ -59,8 +61,13 @@ var makeURI = function(username) {
 
 var validateAccount = function() {
   var account = document.querySelector(".account").value;
-  document.querySelector(".username").innerHTML = account;
-  if (account.length > 0) {
+  account = account.toLowerCase();
+  var re = /^[a-zA-Z0-9]*$/;
+  if (account.length === 0) {
+    resetAvailability();
+  } else if (re.test(account)) {
+    document.querySelector(".account").value = account;
+    document.querySelector(".username").innerHTML = account;
     document.querySelector(".accountinfo").style.display = "";
     document.querySelector(".check").classList.remove("disabled");
   } else {
@@ -211,8 +218,6 @@ var loadImageFileAsURL = function() {
     var img = document.querySelector(".profilepic");
 
     if (fileToLoad.type.match("image.*")) {
-      console.log(fileToLoad.size);
-
       var fileReader = new FileReader();
       fileReader.onload = function(fileLoadedEvent) {
         img.src = fileLoadedEvent.target.result;

@@ -1,1 +1,0 @@
-* add form validation for account name (no weird chars)

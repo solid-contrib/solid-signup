@@ -54,9 +54,9 @@
             <input type="email" class="address" name="email" placeholder="Email (recovery)" oninput="validateEmail()">
             <div>
               <small>
-                Your email address is used <u>only</u> for account recovery.
+                Your email address will be used <u>only</u> for account recovery.
                 <br>
-                Without it, you won't regain access to your account.
+                Without it, you won't be able to recover your account.
               </small>
             </div>
           </div>
@@ -80,7 +80,7 @@
           <keygen id="spkacWebID" name="spkac" challenge="randomchars" keytype="rsa" hidden></keygen>
           <iframe class="hidden" name="spkacframe"></iframe>
           <input type="text" class="webid hidden" name="webid">
-          <input type="text" class="certname" name="name" value="" placeholder="Pick a certificate name">
+          <input type="text" class="certname" name="name" value="" placeholder="Pick a certificate name" required title="Certificate name required">
         </form>
       </div>
     </article>
