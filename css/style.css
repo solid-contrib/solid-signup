@@ -214,7 +214,11 @@ input:focus {
 
 .taken {
 	padding-top: 10px;
-	/*font-size: 1.5rem;*/
+	color: red;
+}
+
+.illegal {
+	padding-top: 10px;
 	color: red;
 }
 

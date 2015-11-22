@@ -50,6 +50,7 @@ var resetAvailability = function() {
   document.querySelector(".next").style.display = "none";
   document.querySelector(".available").style.display = "none";
   document.querySelector(".taken").style.display = "none";
+  document.querySelector(".illegal").style.display = "none";
   document.querySelector(".createacc").style.display = "none";
   document.querySelector(".check").style.display = "";
   document.querySelector(".accountinfo").classList.remove('green');
@@ -74,6 +75,7 @@ var makeURI = function(username) {
 }
 
 var validateAccount = function() {
+  resetAvailability();
   var account = document.querySelector(".account").value;
   account = account.toLowerCase();
   var re = /^[a-zA-Z0-9-_]*$/;
@@ -89,6 +91,7 @@ var validateAccount = function() {
     document.querySelector(".createacc").classList.remove("disabled");
   } else {
     resetAvailability();
+    document.querySelector(".illegal").style.display = "";
   }
 };
 
