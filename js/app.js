@@ -76,7 +76,7 @@ var makeURI = function(username) {
 var validateAccount = function() {
   var account = document.querySelector(".account").value;
   account = account.toLowerCase();
-  var re = /^[a-zA-Z0-9]*$/;
+  var re = /^[a-zA-Z0-9-_]*$/;
   if (account.length === 0) {
     resetAvailability();
   } else if (re.test(account)) {
@@ -195,6 +195,7 @@ var setStep = function(step) {
       document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
       document.querySelector(".check").style.display = "none";
+      document.querySelector(".createacc").style.display = "none";
       document.querySelector(".update").style.display = "none";
       document.querySelector(".next").style.display = "none";
       document.querySelector(".final").style.display = "none";
