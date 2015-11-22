@@ -51,11 +51,9 @@
           </div>
           <div class="email">
             <input type="email" class="address" name="email" placeholder="Email (recovery)">
-            <div>
+            <div class="justify">
               <small>
-                Your email address will be used <u>only</u> for account recovery.
-                <br>
-                Without it, you won't be able to recover your account.
+                Your email address will be used <u>only</u> for account recovery. Without it, you won't be able to recover your account.
               </small>
             </div>
           </div>
@@ -64,14 +62,16 @@
 
 
       <div class="second">
-        <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
-        <a href='#' onclick="clickFileInput()">
-          <div class="camera-wrap">
-            <span class='camera'></span>
-          </div>
-          <img class="profilepic hidden">
-        </a>
-        <input type="text" class="fullname" name="name" value="" placeholder="Type your full name">
+        <form>
+          <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
+          <a href='#' onclick="clickFileInput()">
+            <div class="camera-wrap">
+              <span class='camera'></span>
+            </div>
+            <img class="profilepic hidden">
+          </a>
+          <input type="text" class="fullname" name="name" value="" placeholder="Type your full name">
+        </form>
       </div>
 
       <div class="third">
@@ -95,6 +95,7 @@
         <a href="#" class="update button" onclick="updateProfile()">Update profile (or skip)</a>
         <a href="#" class="final button" onclick="setStep(3)">Next and final step</a>
         <a href="#" class="issue button" onclick="genCert()">Issue certificate</a>
+        <a href="#" class="return button" onclick="returnToApp()">Go back to the app</a>
       </div>
     </footer>
 	</div> <!-- end account setup -->

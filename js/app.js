@@ -5,6 +5,19 @@ var CERT_ENDPOINT = ',system/newCert';
 
 /* ---- DON'T EDIT BELOW ---- */
 var accURL = {};
+var queryVals = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+})(window.location.search.substr(1).split('&'));
 
 var init = function() {
   // Prepare domain
@@ -44,6 +57,7 @@ var resetAvailability = function() {
   document.querySelector(".check").classList.add("disabled");
   document.querySelector(".createacc").classList.remove("greenbg");
   document.querySelector(".createacc").classList.add("disabled");
+  document.querySelector(".return").style.display = "none";
 }
 
 var setProgression = function(val) {
@@ -396,7 +410,15 @@ var certDone = function() {
   document.querySelector(".notifymessage").innerHTML = "You're all set!";
   document.querySelector(".successbox").style.display = "";
   document.querySelector(".third-bullet").classList.add("completed");
+
+  if (queryVals['referal'] && queryVals['referal'].length > 0) {
+    document.querySelector(".return").style.display = "";
+  }
 };
+
+var returnToApp = function() {
+  console.log("Redirecting to "+queryVals['referal']);
+}
 
 // Init app
 init();
