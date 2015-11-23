@@ -10,6 +10,12 @@ var ACCOUNT_ENDPOINT = ',system/newAccount';
 var CERT_ENDPOINT = ',system/newCert';
 ```
 
+The value of `DOMAIN` sets the base URL for the new accounts, where new accounts will be subdomains -- i.e. `https://alice.databox.me`.
+
+The value of `DOMAIN` can also be overridden without editing the `app.js` file, by adding a URL query parameter called `domain` when loading the app. For example, to override the default domain of the signup app and point to `https://example.org`, a user can click on the following link:
+
+`https://solid.github.io/solid-signup/?domain=https%3A%2F%2Fexample.org`
+
 The `ACCOUNT_ENDPOINT` and `CERT_ENDPOINT` values will be appended to the final URI of the user's new account. If your server does not use ACCOUNT_ENDPOINT or CERT_ENDPOINT paths, please set them to an empty value.
 
 ## App workflow
