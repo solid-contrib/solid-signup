@@ -20,9 +20,12 @@ var queryVals = (function(a) {
 })(window.location.search.substr(1).split('&'));
 
 var init = function() {
+  // External source?
+  var _domain = queryVals['domain'];
+
   // Prepare domain
   var parser = document.createElement('a');
-  parser.href = DOMAIN;
+  parser.href = (_domain && _domain.length > 0)?_domain:DOMAIN;
   accURL.host = parser.host + '/'; // => "example.com"
   accURL.path = parser.pathname; // => "/pathname/"
   accURL.schema = parser.protocol + '//';
@@ -415,13 +418,13 @@ var certDone = function() {
   document.querySelector(".successbox").style.display = "";
   document.querySelector(".third-bullet").classList.add("completed");
 
-  if (queryVals['referal'] && queryVals['referal'].length > 0) {
+  if (queryVals['redirect'] && queryVals['redirect'].length > 0) {
     document.querySelector(".return").style.display = "";
   }
 };
 
 var returnToApp = function() {
-  console.log("Redirecting to "+queryVals['referal']);
+  console.log("Redirecting to "+queryVals['redirect']);
 }
 
 // Init app
