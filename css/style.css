@@ -17,13 +17,23 @@
 /* ---------- GENERAL ---------- */
 
 body {
-	background: linear-gradient(130deg, rgba(11, 36, 216, 0.5), rgba(167, 158, 239, 0.5) 25%, rgba(72, 87, 193, 1));
+/*	min-width: 300px;
+    max-width: 400px;
+    position: absolute;
+    color: #fff;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);*/
+	margin: 0;
+
+	background: linear-gradient(130deg, rgba(11, 36, 216, 0.5), rgba(167, 158, 239, 1) 25%, rgba(72, 87, 193, 1));
 	background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
 	line-height: 1.5em;
-	margin: 0;
 }
 
 html {
