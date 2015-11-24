@@ -1,5 +1,7 @@
 # solid-signup
-WebID signup application for Solid servers.
+[![](https://img.shields.io/badge/project-Solid-7C4DFF.svg?style=flat-square)](https://github.com/solid/solid)
+
+> WebID signup application for Solid servers.
 
 ## App configuration
 In order to use the signup app, you must first configure it to point to a server on which the accounts will be created. You can specify the server by edititing the configuration area in `app.js`. For example, the following constants can be set there:
