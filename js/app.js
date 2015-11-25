@@ -406,10 +406,10 @@ var returnToApp = function() {
   // send to parent window
   if (window.opener) {
     window.opener.postMessage('User:'+document.querySelector(".webid").value, origin);
+    window.close();
   } else {
     // send to parent iframe creator
     window.postMessage('User:'+document.querySelector(".webid").value, origin);
-    window.close();
   }
 
 }
