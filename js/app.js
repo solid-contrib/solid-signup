@@ -79,7 +79,11 @@ var makeURI = function(username) {
 var validateAccount = function() {
   resetAvailability();
   var account = document.querySelector(".account").value;
+  // cleaup
   account = account.toLowerCase().replace(/\s+/g, '-');
+  if (account.indexOf('-') === 0) {
+    account = account.slice(1);
+  }
   var re = /^[a-zA-Z0-9-_]*$/;
   if (account.length === 0) {
     resetAvailability();
@@ -114,6 +118,14 @@ var isTaken = function(url) {
 
 var checkExists = function() {
   var account = document.querySelector(".account").value;
+  if (account.indexOf('-') === 0) {
+    account = account.slice(1);
+  }
+  if (account.lastIndexOf('-') === account.length - 1) {
+    account = account.slice(0, -1)
+  }
+  document.querySelector(".account").value = account;
+  document.querySelector(".username").innerHTML = account;
   if (account.length > 0) {
     var url = makeURI(account);
     var http = new XMLHttpRequest();
