@@ -132,7 +132,6 @@ var checkExists = function() {
 }
 
 var setStep = function(step) {
-  console.log("Step: "+step);
   switch(step) {
     case 1:
       // Progression
@@ -155,6 +154,8 @@ var setStep = function(step) {
       document.querySelector(".left").style.display = "";
       document.querySelector(".middle").style.display = "none";
       document.querySelector(".right").style.display = "none";
+      // Scroll into view
+      scrollIntoView('.account');
       break;
     case 2:
       // Progression
@@ -176,6 +177,8 @@ var setStep = function(step) {
       document.querySelector(".left").style.display = "none";
       document.querySelector(".middle").style.display = "";
       document.querySelector(".right").style.display = "none";
+      // Scroll into view
+        scrollIntoView('.fullname');
       // Focus
       window.setTimeout(function () {
         document.querySelector(".fullname").focus();
@@ -208,6 +211,8 @@ var setStep = function(step) {
         certname = "My "+account+" WebID account";
       }
       document.querySelector(".certname").value = certname;
+      // Scroll into view
+      scrollIntoView();
       break;
   }
 };
@@ -396,6 +401,9 @@ var certDone = function() {
   if (queryVals['origin'] && queryVals['origin'].length > 0) {
     document.querySelector(".return").style.display = "";
   }
+
+  // Scroll into view
+  scrollIntoView();
 };
 
 var returnToApp = function() {
@@ -405,16 +413,21 @@ var returnToApp = function() {
   }
   // send to parent window
   if (window.opener) {
-    console.log('window.opener.postMessage("User:'+document.querySelector(".webid").value+'", "'+origin+'")');
     window.opener.postMessage('User:'+document.querySelector(".webid").value, origin);
     window.close();
   } else {
     // send to parent iframe creator
-    console.log('window.postMessage("User:'+document.querySelector(".webid").value+'", "'+origin+'")');
     parent.postMessage('User:'+document.querySelector(".webid").value, origin);
   }
+};
 
-}
+var scrollIntoView = function(elm) {
+  if (!elm) {
+    elm = 'footer';
+  }
+  console.log('scrolling to:'+elm);
+  document.querySelector(elm).scrollIntoView(true);
+};
 
 // Init app
 init();
