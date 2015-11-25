@@ -389,7 +389,7 @@ var genCert = function() {
 var certDone = function() {
   document.querySelector(".third").style.display = "none";
   document.querySelector(".issue").style.display = "none";
-  document.querySelector(".notifymessage").innerHTML = "You're all set!";
+  document.querySelector(".notifymessage").innerHTML = "You're all set!<br>A certificate should have been installed in your browser.";
   document.querySelector(".successbox").style.display = "";
   document.querySelector(".third-bullet").classList.add("completed");
 
@@ -405,10 +405,12 @@ var returnToApp = function() {
   }
   // send to parent window
   if (window.opener) {
+    console.log('window.opener.postMessage("User:'+document.querySelector(".webid").value+'", "'+origin+'")');
     window.opener.postMessage('User:'+document.querySelector(".webid").value, origin);
     window.close();
   } else {
     // send to parent iframe creator
+    console.log('window.postMessage("User:'+document.querySelector(".webid").value+'", "'+origin+'")');
     window.postMessage('User:'+document.querySelector(".webid").value, origin);
   }
 
