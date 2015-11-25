@@ -409,7 +409,7 @@ var returnToApp = function() {
   } else {
     // send to parent iframe creator
     window.postMessage('User:'+document.querySelector(".webid").value, origin);
-    // TODO see if we should close the window
+    window.close();
   }
 
 }
