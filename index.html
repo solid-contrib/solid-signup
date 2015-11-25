@@ -17,7 +17,7 @@
 				<div class="clearfix">
 					<div class="float-left inline-block"><a class="first-bullet">1<span class="progress-info left">Create your account</span></a></div>
 					<div class="inline-block"><a class="second-bullet">2<span class="progress-info middle">Add more information</span></a></a></div>
-					<div class="float-right inline-block"><a class="third-bullet">3<span class="progress-info right">Issue a login certificate</span></a></div>
+					<div class="float-right inline-block"><a class="third-bullet">3<span class="progress-info right">Generate keys</span></a></div>
 				</div>
 			</div> <!-- end status-progress -->
 		</header>
@@ -66,6 +66,7 @@
 
       <div class="second">
         <form>
+          <h3 class="green">Account created!</h3>
           <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
           <a href='#' onclick="clickFileInput()">
             <div class="camera-wrap">
@@ -82,10 +83,9 @@
           <keygen id="spkacWebID" name="spkac" challenge="randomchars" keytype="rsa" hidden></keygen>
           <iframe class="hidden" name="spkacframe"></iframe>
           <input type="text" class="webid hidden" name="webid">
-          <label>
-            Please pick a certificate name
-            <input type="text" class="certname" name="name" value="" placeholder="Your name" required title="Certificate name required">
-          </label>
+          <input type="text" class="certname hidden" name="name" value="" placeholder="Your name">
+          <h3>You're almost there!</h3>
+          <p class="justify">In this final step, strong cryptographic keys will be generated and installed in the browser. Using them avoids having to remember passwords, thus offerring increased security.</p>
         </form>
       </div>
     </article>
@@ -94,10 +94,8 @@
       <div class="buttons center">
         <a href="#" class="createacc button greenbg" onclick="createAccount()">Create account</a>
         <a href="#" class="check button" onclick="checkExists()">Check availability</a>
-        <a href="#" class="next button" onclick="setStep(2)">Next step</a>
-        <a href="#" class="update button" onclick="updateProfile()">Update profile (or skip)</a>
-        <a href="#" class="final button" onclick="setStep(3)">Next and final step</a>
-        <a href="#" class="issue button" onclick="genCert()">Issue certificate</a>
+        <a href="#" class="update button" onclick="updateProfile()">Update profile</a>
+        <a href="#" class="issue button" onclick="genCert()">Generate keys and finish</a>
         <a href="#" class="return button" onclick="returnToApp()">Go back to the app</a>
       </div>
     </footer>

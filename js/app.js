@@ -50,7 +50,6 @@ var init = function() {
 
 var resetAvailability = function() {
   document.querySelector(".email").style.display = "none";
-  document.querySelector(".next").style.display = "none";
   document.querySelector(".available").style.display = "none";
   document.querySelector(".taken").style.display = "none";
   document.querySelector(".illegal").style.display = "none";
@@ -132,15 +131,6 @@ var checkExists = function() {
   }
 }
 
-var accountDone = function() {
-  document.querySelector(".first-bullet").classList.add("completed");
-  document.querySelector(".createacc").style.display = "none";
-  document.querySelector(".first").style.display = "none";
-  document.querySelector(".successbox").style.display = "";
-  document.querySelector(".notifymessage").innerHTML = "Your account has been created. Please take a moment to provide some extra information about yourself.";
-  document.querySelector(".next").style.display = "";
-};
-
 var setStep = function(step) {
   console.log("Step: "+step);
   switch(step) {
@@ -152,7 +142,6 @@ var setStep = function(step) {
       document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
       document.querySelector(".update").style.display = "none";
-      document.querySelector(".final").style.display = "none";
       document.querySelector(".issue").style.display = "none";
       // Hide success
       document.querySelector(".successbox").style.display = "none";
@@ -174,9 +163,8 @@ var setStep = function(step) {
       document.querySelector(".second-bullet").classList.remove("completed");
       document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
+      document.querySelector(".createacc").style.display = "none";
       document.querySelector(".check").style.display = "none";
-      document.querySelector(".next").style.display = "none";
-      document.querySelector(".final").style.display = "none";
       document.querySelector(".issue").style.display = "none";
       document.querySelector(".update").style.display = "";
       // Article
@@ -203,8 +191,6 @@ var setStep = function(step) {
       document.querySelector(".check").style.display = "none";
       document.querySelector(".createacc").style.display = "none";
       document.querySelector(".update").style.display = "none";
-      document.querySelector(".next").style.display = "none";
-      document.querySelector(".final").style.display = "none";
       document.querySelector(".issue").style.display = "";
       // Article
       document.querySelector(".successbox").style.display = "none";
@@ -218,12 +204,10 @@ var setStep = function(step) {
       // Set cert name
       var certname = document.querySelector('.fullname').value;
       if (certname.length === 0) {
-        certname = document.querySelector('.account').value;
-        if (certname.length === 0) {
-          certname = "My WebID";
-        }
+        account = document.querySelector('.account').value;
+        certname = "My "+account+" WebID account";
       }
-      document.querySelector(".certname").value = certname + "'s certificate";
+      document.querySelector(".certname").value = certname;
       break;
   }
 };
@@ -355,7 +339,7 @@ var patchProfile = function(profile) {
       if (this.readyState == this.DONE) {
         if (this.status === 200) {
           console.log("Updated profile!");
-          profileDone();
+          setStep(3);
         }
       }
     };
@@ -363,15 +347,6 @@ var patchProfile = function(profile) {
   } else {
     setStep(3);
   }
-};
-
-var profileDone = function() {
-  document.querySelector(".second").style.display = "none";
-  document.querySelector(".update").style.display = "none";
-  document.querySelector(".successbox").style.display = "";
-  document.querySelector(".second-bullet").classList.add("completed");
-  document.querySelector(".notifymessage").innerHTML = "Your profile has been updated. You can now optionally generate a certificate.";
-  document.querySelector(".final").style.display = "";
 };
 
 var createAccount = function() {
@@ -391,7 +366,7 @@ var createAccount = function() {
             if (webid && webid.length > 0) {
               document.querySelector(".webid").value = webid;
             }
-            accountDone();
+            setStep(2);
           } else {
             console.log('Error creating account at '+url);
           }
@@ -404,7 +379,7 @@ var createAccount = function() {
 var genCert = function() {
   var account = document.querySelector(".account").value;
   if (document.querySelector(".certname").value.length === 0) {
-    document.querySelector(".certname").value = "My WebID";
+    document.querySelector(".certname").value = "My "+account+" WebID account ";
   }
   document.querySelector(".spkacform").setAttribute("action", makeURI(account)+CERT_ENDPOINT);
   document.querySelector(".spkacform").submit();
@@ -424,8 +399,19 @@ var certDone = function() {
 };
 
 var returnToApp = function() {
-
   var origin = queryVals['origin'];
+  if (!origin || origin.length === 0) {
+    origin = '*';
+  }
+  // send to parent window
+  if (window.opener) {
+    window.opener.postMessage('User:'+document.querySelector(".webid").value, origin);
+  } else {
+    // send to parent iframe creator
+    window.postMessage('User:'+document.querySelector(".webid").value, origin);
+    // TODO see if we should close the window
+  }
+
 }
 
 // Init app
