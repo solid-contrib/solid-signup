@@ -79,7 +79,7 @@ var makeURI = function(username) {
 var validateAccount = function() {
   resetAvailability();
   var account = document.querySelector(".account").value;
-  account = account.toLowerCase();
+  account = account.toLowerCase().replace(/\s+/g, '-');
   var re = /^[a-zA-Z0-9-_]*$/;
   if (account.length === 0) {
     resetAvailability();
