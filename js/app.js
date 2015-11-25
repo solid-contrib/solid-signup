@@ -109,6 +109,9 @@ var isAvailable = function(url) {
   document.querySelector(".check").style.display = "none";
   document.querySelector(".email").style.display = "";
   document.querySelector(".accountinfo").classList.add('green');
+  window.setTimeout(function () {
+    document.querySelector(".account").focus();
+  }, 0);
 };
 
 var isTaken = function(url) {
