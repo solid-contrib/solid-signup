@@ -418,13 +418,14 @@ var certDone = function() {
   document.querySelector(".successbox").style.display = "";
   document.querySelector(".third-bullet").classList.add("completed");
 
-  if (queryVals['redirect'] && queryVals['redirect'].length > 0) {
+  if (queryVals['origin'] && queryVals['origin'].length > 0) {
     document.querySelector(".return").style.display = "";
   }
 };
 
 var returnToApp = function() {
-  console.log("Redirecting to "+queryVals['redirect']);
+
+  var origin = queryVals['origin'];
 }
 
 // Init app
