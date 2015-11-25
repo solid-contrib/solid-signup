@@ -411,7 +411,7 @@ var returnToApp = function() {
   } else {
     // send to parent iframe creator
     console.log('window.postMessage("User:'+document.querySelector(".webid").value+'", "'+origin+'")');
-    window.postMessage('User:'+document.querySelector(".webid").value, origin);
+    parent.postMessage('User:'+document.querySelector(".webid").value, origin);
   }
 
 }
