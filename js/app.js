@@ -30,6 +30,8 @@ var init = function() {
   accURL.path = parser.pathname; // => "/pathname/"
   accURL.schema = parser.protocol + '//';
 
+  document.querySelector(".welcome").innerHTML = parser.host;
+
   // Add listener
   document.querySelector(".account").addEventListener('keypress', function(e) {
     if (e.which == 13) {
