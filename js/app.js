@@ -22,8 +22,8 @@ var queryVals = (function(a) {
 var init = function() {
   // External source?
   var _domain = queryVals['domain'];
-  var _accEndpoint = queryVals['acc-endpoint'];
-  var _crtEndpoint = queryVals['crt-endpoint'];
+  var _accEndpoint = queryVals['acc'];
+  var _crtEndpoint = queryVals['crt'];
 
   // Prepare domain
   var parser = document.createElement('a');
