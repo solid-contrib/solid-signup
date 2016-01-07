@@ -22,6 +22,8 @@ var queryVals = (function(a) {
 var init = function() {
   // External source?
   var _domain = queryVals['domain'];
+  var _accEndpoint = queryVals['acc-endpoint'];
+  var _crtEndpoint = queryVals['crt-endpoint'];
 
   // Prepare domain
   var parser = document.createElement('a');
@@ -29,6 +31,15 @@ var init = function() {
   accURL.host = parser.host + '/'; // => "example.com"
   accURL.path = parser.pathname; // => "/pathname/"
   accURL.schema = parser.protocol + '//';
+
+  // Prepare account endpoint
+  if (_accEndpoint && _accEndpoint.length > 0) {
+    ACCOUNT_ENDPOINT = _accEndpoint;
+  }
+  // Prepare cert endpoint
+  if (_crtEndpoint && _crtEndpoint.length > 0) {
+    CERT_ENDPOINT = _crtEndpoint;
+  }
 
   document.querySelector(".welcome").innerHTML = parser.host;
 
@@ -195,7 +206,7 @@ var setStep = function(step) {
       document.querySelector(".middle").style.display = "";
       document.querySelector(".right").style.display = "none";
       // Scroll into view
-        scrollIntoView('.fullname');
+      scrollIntoView('.fullname');
       // Focus
       window.setTimeout(function () {
         document.querySelector(".fullname").focus();
