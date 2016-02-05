@@ -429,11 +429,11 @@ var genCert = function() {
 var certDone = function() {
   document.querySelector(".third").style.display = "none";
   document.querySelector(".issue").style.display = "none";
-  document.querySelector(".notifymessage").innerHTML = "You're all set!<br>A certificate should have been installed in your browser.";
+  document.querySelector(".notifymessage").innerHTML = "You're all set!<br>A certificate should have been installed in your browser ";
+  document.querySelector(".notifymessage").innerHTML += "(<a href=\"#\" onclick=\"genCert()\">or click here if it hasn't</a>).";
   document.querySelector(".successbox").style.display = "";
   document.querySelector(".third-bullet").classList.add("completed");
 
-  //@@@ https://github.com/solid/solid-signup/issues/9
   // Prompt Firefox users to restart browser in order to use the client cert
   if (navigator.userAgent.indexOf('Firefox') >= 0) {
     document.querySelector(".notifymessage").innerHTML += "<br><strong>You must restart your browser to be able to use the certificate.</strong>";
