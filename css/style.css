@@ -413,7 +413,7 @@ input:focus {
   background: #eee;
   position: relative;
   border: solid 0.075em #ddd;
-  margin: 0 auto 0.75em auto;
+  margin: 0 auto 0.3em auto;
   border-radius: 50%;
 }
 

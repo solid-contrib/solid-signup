@@ -212,6 +212,8 @@ var setStep = function(step) {
       document.querySelector(".right").style.display = "none";
       // Scroll into view
       scrollIntoView('.fullname');
+      // Gravatar
+      setGravatar();
       // Focus
       window.setTimeout(function () {
         document.querySelector(".fullname").focus();
@@ -316,8 +318,13 @@ var updateProfile = function() {
     var url = makeURI(account) + 'profile/';
     profile.url = url+'card';
     // upload profile picture
-    var dataURI = document.querySelector('.profilepic').src;
+    var dataURI = document.querySelector('.profilepic').getAttribute('src');
     if (dataURI && dataURI.length > 0) {
+      if (dataURI.slice(0, 4) === 'http') {
+        profile.picture = dataURI;
+        patchProfile(profile);
+        return
+      }
       // convert dataURL to blob (binary)
       var byteString = atob(dataURI.split(',')[1]);
       var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -469,11 +476,34 @@ var showAccount = function() {
     window.location.replace(makeURI(account));
 }
 
+var setGravatar = function() {
+  var email = document.querySelector(".address").value;
+  if (email.length > 0) {
+    var url = 'https://www.gravatar.com/avatar/' + hex_md5(email.replace(' ', '').toLowerCase())+'?d=404';
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url);
+    http.onreadystatechange = function() {
+      console.log(this.status)
+        if (this.readyState == this.DONE && this.status === 200) {
+          document.querySelector(".profilepic").src = url;
+          document.querySelector(".camera-wrap").classList.add("hidden");
+          document.querySelector(".profilepic").classList.remove("hidden");
+        }
+    };
+    http.send();
+  }
+}
+
+var removePicture = function() {
+  document.querySelector(".profilepic").src = '';
+  document.querySelector(".camera-wrap").classList.remove("hidden");
+  document.querySelector(".profilepic").classList.add("hidden");
+}
+
 var scrollIntoView = function(elm) {
   if (!elm) {
     elm = 'footer';
   }
-  console.log('scrolling to:'+elm);
   document.querySelector(elm).scrollIntoView(true);
 };
 
