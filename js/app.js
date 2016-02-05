@@ -63,8 +63,7 @@ var init = function() {
 
 var resetAvailability = function() {
   document.querySelector(".email").style.display = "none";
-  document.querySelector(".available").style.display = "none";
-  document.querySelector(".taken").style.display = "none";
+  document.querySelector(".status").innerHTML = '';
   document.querySelector(".illegal").style.display = "none";
   document.querySelector(".createacc").style.display = "none";
   document.querySelector(".check").style.display = "";
@@ -117,20 +116,21 @@ var validateAccount = function() {
 
 
 var isAvailable = function(url) {
-  document.querySelector(".available").style.display = "";
-  document.querySelector(".taken").style.display = "none";
+  document.querySelector(".status").innerHTML = "is available";
   document.querySelector(".createacc").style.display = "";
   document.querySelector(".check").style.display = "none";
   document.querySelector(".email").style.display = "";
   document.querySelector(".accountinfo").classList.add('green');
+  document.querySelector(".accountinfo").classList.remove('red');
   window.setTimeout(function () {
     document.querySelector(".account").focus();
   }, 0);
 };
 
 var isTaken = function(url) {
-  document.querySelector(".available").style.display = "none";
-  document.querySelector(".taken").style.display = "";
+  document.querySelector(".status").innerHTML = "is taken";
+  document.querySelector(".accountinfo").classList.remove('green');
+  document.querySelector(".accountinfo").classList.add('red');
 }
 
 var checkExists = function() {
@@ -148,8 +148,12 @@ var checkExists = function() {
     var http = new XMLHttpRequest();
     http.open('HEAD', url);
     http.onreadystatechange = function() {
+      console.log(this.status)
         if (this.readyState == this.DONE) {
-          if (this.status === 404) {
+          if (this.status === 0) {
+            // disconnected
+            document.querySelector(".status").innerHTML = "<strong>could not connect to server</strong>";
+          } else if (this.status === 404) {
             isAvailable(url);
           } else {
             isTaken(url);
@@ -403,6 +407,8 @@ var createAccount = function() {
             setStep(2);
           } else {
             console.log('Error creating account at '+url);
+            setStep(1);
+            isAvailable(url);
           }
         }
     };

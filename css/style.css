@@ -361,6 +361,10 @@ input:focus {
 	color: #43C47A;
 }
 
+.red {
+  color: red;
+}
+
 .greenbg {
 	background-color: #43C47A;
 }
