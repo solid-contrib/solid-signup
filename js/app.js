@@ -433,10 +433,15 @@ var certDone = function() {
   document.querySelector(".successbox").style.display = "";
   document.querySelector(".third-bullet").classList.add("completed");
 
+  //@@@ https://github.com/solid/solid-signup/issues/9
+  // Prompt Firefox users to restart browser in order to use the client cert
+  if (navigator.userAgent.indexOf('Firefox') >= 0) {
+    document.querySelector(".notifymessage").innerHTML += "<br><strong>You must restart your browser to be able to use the certificate.</strong>";
+  }
+
   if (queryVals['origin'] && queryVals['origin'].length > 0) {
     document.querySelector(".return").style.display = "";
   } else {
-    document.querySelector(".notifymessage").innerHTML += "<br>Click the button below to browse your new account.";
     document.querySelector(".done").style.display = "";
   }
 
