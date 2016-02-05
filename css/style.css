@@ -111,6 +111,11 @@ input:focus {
   margin-bottom: 10px;
 }
 
+/** Done all **/
+.done {
+  display: none;
+}
+
 /* check sign animations */
 @-webkit-keyframes checkmark {
     0% {

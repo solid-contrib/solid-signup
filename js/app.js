@@ -74,6 +74,7 @@ var resetAvailability = function() {
   document.querySelector(".createacc").classList.remove("greenbg");
   document.querySelector(".createacc").classList.add("disabled");
   document.querySelector(".return").style.display = "none";
+  document.querySelector(".done").style.display = "none";
 }
 
 var setProgression = function(val) {
@@ -428,6 +429,9 @@ var certDone = function() {
 
   if (queryVals['origin'] && queryVals['origin'].length > 0) {
     document.querySelector(".return").style.display = "";
+  } else {
+    document.querySelector(".notifymessage").innerHTML += "<br>Click the button below to browse your new account.";
+    document.querySelector(".done").style.display = "";
   }
 
   // Scroll into view
@@ -448,6 +452,11 @@ var returnToApp = function() {
     parent.postMessage('User:'+document.querySelector(".webid").value, origin);
   }
 };
+
+var showAccount = function() {
+    var account = document.querySelector(".account").value;
+    window.location.replace(makeURI(account));
+}
 
 var scrollIntoView = function(elm) {
   if (!elm) {
