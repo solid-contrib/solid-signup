@@ -479,7 +479,7 @@ var showAccount = function() {
 var setGravatar = function() {
   var email = document.querySelector(".address").value;
   if (email.length > 0) {
-    var url = 'https://www.gravatar.com/avatar/' + hex_md5(email.replace(' ', '').toLowerCase())+'?d=404';
+    var url = 'https://www.gravatar.com/avatar/' + hex_md5(email.replace(' ', '').toLowerCase())+'?d=404&s=300';
     var http = new XMLHttpRequest();
     http.open('HEAD', url);
     http.onreadystatechange = function() {
