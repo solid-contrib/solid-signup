@@ -11,14 +11,6 @@
 	<div id="pickuser" class="account-setup">
 		<header>
 			<div class="solid center"><img src="images/solid-logo.png"></div>
-			<div class="status-progress">
-        <div class="progression float-left"></div>
-				<div class="clearfix">
-					<div class="float-left inline-block"><a class="first-bullet">1<span class="progress-info left">Create your account</span></a></div>
-					<div class="inline-block"><a class="second-bullet">2<span class="progress-info middle">Add more information</span></a></a></div>
-					<div class="float-right inline-block"><a class="third-bullet">3<span class="progress-info right">Generate keys</span></a></div>
-				</div>
-			</div> <!-- end status-progress -->
 		</header>
 
     <article class="center">
@@ -35,10 +27,9 @@
         <p class="notifymessage"></p>
       </div>
 
-      <div class="first">
+      <div class="signup">
         <form class="pure-form">
           <h2>Welcome to <span class="welcome"></span>!</h2>
-          <p>Let's get you set up with an account.</p>
           <input type="text" class="account" name="username" value="" placeholder="Pick a user name" oninput="validateAccount()" autofocus>
           <div class="accountinfo">
             <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
@@ -47,33 +38,24 @@
             <small>Only letters, numbers, hyphens (-) and underscores (_) are accepted.</small>
           </div>
           <div class="status"></div>
-          <div class="email">
-            <input type="email" class="address" name="email" placeholder="Email (optional)">
-            <div class="">
-              <small>
-                Your email address will be used <u>only</u> for account recovery. Without it, you won't be able to recover your account .
-              </small>
+          <div id="profile">
+            <div class="avatar">
+              <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
+              <a href='#' onclick="clickFileInput()">
+                <div class="camera-wrap">
+                  <span class='camera'></span>
+                </div>
+                <img class="profilepic hidden">
+              </a>
+              <a href="#" class="remove-avatar" onclick="removePicture()">Remove picture</a>
             </div>
+            <input type="text" class="fullname float-right" name="name" value="" placeholder="Name">
+            <input type="email" class="address float-right" name="email" placeholder="Email" onkeyup="setGravatar()">
           </div>
         </form>
       </div>
 
-      <div class="second">
-        <form>
-          <h3>Username reserved...</h3>
-          <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
-          <a href='#' onclick="clickFileInput()">
-            <div class="camera-wrap">
-              <span class='camera'></span>
-            </div>
-            <img class="profilepic hidden">
-          </a>
-          <a href="#" onclick="removePicture()">Remove picture</a>
-          <input type="text" class="fullname" name="name" value="" placeholder="Type your full name (optional)">
-        </form>
-      </div>
-
-      <div class="third">
+      <div class="finish">
         <form class="spkacform" method="POST" target="spkacframe">
           <keygen id="spkacWebID" name="spkac" challenge="randomchars" keytype="rsa" hidden></keygen>
           <iframe class="hidden" name="spkacframe"></iframe>

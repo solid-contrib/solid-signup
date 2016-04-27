@@ -62,7 +62,7 @@ var init = function() {
 }
 
 var resetAvailability = function() {
-  document.querySelector(".email").style.display = "none";
+  document.getElementById("profile").style.display = "none";
   document.querySelector(".status").innerHTML = '';
   document.querySelector(".illegal").style.display = "none";
   document.querySelector(".createacc").style.display = "none";
@@ -75,12 +75,6 @@ var resetAvailability = function() {
   document.querySelector(".return").style.display = "none";
   document.querySelector(".done").style.display = "none";
 }
-
-var setProgression = function(val) {
-  if (val) {
-    document.querySelector(".progression").style.width = val;
-  }
-};
 
 var makeURI = function(username) {
   if (username.length > 0) {
@@ -116,10 +110,9 @@ var validateAccount = function() {
 
 
 var isAvailable = function(url) {
-  document.querySelector(".status").innerHTML = "is available";
   document.querySelector(".createacc").style.display = "";
   document.querySelector(".check").style.display = "none";
-  document.querySelector(".email").style.display = "";
+  document.getElementById("profile").style.display = "";
   document.querySelector(".accountinfo").classList.add('green');
   document.querySelector(".accountinfo").classList.remove('red');
   window.setTimeout(function () {
@@ -167,11 +160,6 @@ var checkExists = function() {
 var setStep = function(step) {
   switch(step) {
     case 1:
-      // Progression
-      setProgression("0%");
-      document.querySelector(".first-bullet").classList.remove("completed");
-      document.querySelector(".second-bullet").classList.remove("completed");
-      document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
       document.querySelector(".update").style.display = "none";
       document.querySelector(".issue").style.display = "none";
@@ -180,36 +168,21 @@ var setStep = function(step) {
       // Hide example
       document.querySelector(".accountinfo").style.display = "none";
       // Article
-      document.querySelector(".first").style.display = "";
-      document.querySelector(".second").style.display = "none";
-      document.querySelector(".third").style.display = "none";
-      // Tooltips
-      document.querySelector(".left").style.display = "";
-      document.querySelector(".middle").style.display = "none";
-      document.querySelector(".right").style.display = "none";
+      document.querySelector(".signup").style.display = "";
+      document.querySelector(".finish").style.display = "none";
       // Scroll into view
       scrollIntoView('.account');
       break;
     case 2:
-      // Progression
-      setProgression("50%");
-      document.querySelector(".first-bullet").classList.add("completed");
-      document.querySelector(".second-bullet").classList.remove("completed");
-      document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
       document.querySelector(".createacc").style.display = "none";
       document.querySelector(".check").style.display = "none";
       document.querySelector(".issue").style.display = "none";
       document.querySelector(".update").style.display = "";
       // Article
-      document.querySelector(".first").style.display = "none";
-      document.querySelector(".second").style.display = "";
-      document.querySelector(".third").style.display = "none";
+      document.querySelector(".signup").style.display = "none";
+      document.querySelector(".finish").style.display = "";
       document.querySelector(".successbox").style.display = "none";
-      // Tooltips
-      document.querySelector(".left").style.display = "none";
-      document.querySelector(".middle").style.display = "";
-      document.querySelector(".right").style.display = "none";
       // Scroll into view
       scrollIntoView('.fullname');
       // Gravatar
@@ -220,11 +193,6 @@ var setStep = function(step) {
       }, 0);
       break;
     case 3:
-      // Progression
-      setProgression("100%");
-      document.querySelector(".first-bullet").classList.add("completed");
-      document.querySelector(".second-bullet").classList.add("completed");
-      document.querySelector(".third-bullet").classList.remove("completed");
       // Hide buttons
       document.querySelector(".check").style.display = "none";
       document.querySelector(".createacc").style.display = "none";
@@ -232,13 +200,8 @@ var setStep = function(step) {
       document.querySelector(".issue").style.display = "";
       // Article
       document.querySelector(".successbox").style.display = "none";
-      document.querySelector(".first").style.display = "none";
-      document.querySelector(".second").style.display = "none";
-      document.querySelector(".third").style.display = "";
-      // Tooltips
-      document.querySelector(".left").style.display = "none";
-      document.querySelector(".middle").style.display = "none";
-      document.querySelector(".right").style.display = "";
+      document.querySelector(".signup").style.display = "none";
+      document.querySelector(".finish").style.display = "";
       // Set cert name
       var certname = document.querySelector('.fullname').value;
       if (certname.length === 0) {
@@ -259,6 +222,7 @@ var clickFileInput = function() {
 var loadImageFileAsURL = function() {
   var dataURL;
   var filesSelected = document.getElementById("inputFileToLoad").files;
+  console.log(filesSelected)
   if (filesSelected.length > 0) {
     var fileToLoad = filesSelected[0];
     var img = document.querySelector(".profilepic");
@@ -411,7 +375,7 @@ var createAccount = function() {
             if (webid && webid.length > 0) {
               document.querySelector(".webid").value = webid;
             }
-            setStep(2);
+            updateProfile();
           } else {
             console.log('Error creating account at '+url);
             setStep(1);
@@ -434,12 +398,11 @@ var genCert = function() {
 };
 
 var certDone = function() {
-  document.querySelector(".third").style.display = "none";
+  document.querySelector(".finish").style.display = "none";
   document.querySelector(".issue").style.display = "none";
   document.querySelector(".notifymessage").innerHTML = "You're all set!<br>A certificate should have been installed in your browser ";
   document.querySelector(".notifymessage").innerHTML += "(<a href=\"#\" onclick=\"genCert()\">or click here if it hasn't</a>).";
   document.querySelector(".successbox").style.display = "";
-  document.querySelector(".third-bullet").classList.add("completed");
 
   // Prompt Firefox users to restart browser in order to use the client cert
   if (navigator.userAgent.indexOf('Firefox') >= 0) {
@@ -478,12 +441,13 @@ var showAccount = function() {
 
 var setGravatar = function() {
   var email = document.querySelector(".address").value;
-  if (email.length > 0) {
+  var pic = document.querySelector(".profilepic").src;
+  console.log(pic.length)
+  if (email.length > 0 && pic.length === 0) {
     var url = 'https://www.gravatar.com/avatar/' + hex_md5(email.replace(' ', '').toLowerCase())+'?d=404&s=300';
     var http = new XMLHttpRequest();
     http.open('HEAD', url);
     http.onreadystatechange = function() {
-      console.log(this.status)
         if (this.readyState == this.DONE && this.status === 200) {
           document.querySelector(".profilepic").src = url;
           document.querySelector(".camera-wrap").classList.add("hidden");
@@ -495,7 +459,7 @@ var setGravatar = function() {
 }
 
 var removePicture = function() {
-  document.querySelector(".profilepic").src = '';
+  document.querySelector(".profilepic").removeAttribute('src');
   document.querySelector(".camera-wrap").classList.remove("hidden");
   document.querySelector(".profilepic").classList.add("hidden");
 }

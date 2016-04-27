@@ -72,18 +72,18 @@ form {
 input[type=text],input[type=email]  {
 	width: 100%;
 	padding: 1em 1em;
-    display: inline-block;
-    border: 1px solid #ddd;
-    box-shadow: inset 0 1px 1px #eee;
-    border-radius: 4px;
-    min-width: 250px;
-    vertical-align: middle;
-    font-size: 1em;
-    text-align: center;
-    margin-bottom: 5px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+  display: inline-block;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-width: 250px;
+  vertical-align: middle;
+  font-size: 1em;
+  font-weight: 200;
+  text-align: center;
+  margin-bottom: 5px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 input:focus {
@@ -214,7 +214,6 @@ input:focus {
 .account-setup header {
 	background: #333748;
 	border-radius: 10px 10px 0 0;
-	padding: 0px 14px 50px 14px;
 }
 
 .available {
@@ -231,85 +230,6 @@ input:focus {
 .illegal {
 	padding-top: 10px;
 	color: red;
-}
-
-.status-progress {
-	background: #ccc;
-	border-radius: 3px;
-	height: 6px;
-	margin: 9px 0;
-	position: relative;
-	width: 100%;
-	text-align: center;
-}
-.status-progress .progression {
-	position: absolute!important;
-	background: #43c47a;
-	height: 6px;
-	width: 0%;
-	float: left;
-	top: 0;
-	z-index: 5;
-}
-
-.status-progress a {
-	background: #69f;
-	border-radius: 100%;
-	border: 2px solid #eee;
-	color: #fff;
-	display: inline-block;
-	height: 24px;
-	line-height: 24px;
-	position: relative;
-	text-align: center;
-	width: 24px;
-	z-index: 10;
-}
-
-.status-progress .completed { background: #43c47a;}
-
-.status-progress .progress-info {
-	background: #fff;
-	border-radius: 3px;
-	color: #1f222c;
-	display: block;
-	font-size: 12px;
-	height: 32px;
-	line-height: 32px;
-	position: absolute;
-	top: 38px;
-	left: -68px;
-	width: 160px;
-}
-
-.status-progress .progress-info:after {
-	background: #fff;
-	content: '';
-	display: block;
-	height: 8px;
-	left: 76px;
-	position: absolute;
-	top: -4px;
-	-webkit-transform: rotate(45deg);
-	-moz-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	-o-transform: rotate(45deg);
-	transform: rotate(45deg);
-	width: 8px;
-}
-
-.status-progress .left {
-	left: 0px;
-}
-.status-progress .left:after {
-	left: 6px;
-}
-
-.status-progress .right {
-	left: -136px;
-}
-.status-progress .right:after {
-	left: 146px;
 }
 
 .account-setup footer {
@@ -393,27 +313,49 @@ input:focus {
 	display: inline-block;
 }
 
+.accountinfo {
+  padding-top: 5px;
+}
+
 /* picture placeholder */
 .profilepic {
     position: relative;
     display: block;
-    width: 10em;
-    height: 10em;
+    width: 6.5em;
+    height: 6.5em;
     border: solid 0.075em #ddd;
-    margin: 0 auto 0.75em auto;
+    margin: 0 auto 0 auto;
     border-radius: 50%;
+}
+
+#profile {
+  margin: 20px 0;
+  min-height: 105px;
+}
+
+#profile > input[type=text], input[type=email] {
+  width: auto;
+}
+
+.avatar {
+  float: left;
+}
+
+.remove-avatar {
+  font-size: small;
+  color: #4e4e4e;
 }
 
 .camera-wrap {
   transition: background 0.3s linear;
   display: block;
   font-size: 2em;
-  width: 5em;
-  padding-top: 5em;
+  width: 3em;
+  padding-top: 3em;
   background: #eee;
   position: relative;
   border: solid 0.075em #ddd;
-  margin: 0 auto 0.3em auto;
+  /*margin: 0 auto 0.3em auto;*/
   border-radius: 50%;
 }
 
@@ -424,7 +366,7 @@ input:focus {
   margin-top: -0.25em;
   left: 50%;
   margin-left: -0.5em;
-  font-size: 2em;
+  font-size: 1.5em;
   width: 1em;
   height: 0.6em;
   background: #ababab;
