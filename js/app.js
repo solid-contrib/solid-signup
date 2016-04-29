@@ -41,39 +41,47 @@ var init = function() {
     CERT_ENDPOINT = _crtEndpoint;
   }
 
-  document.querySelector(".welcome").innerHTML = parser.host;
+  // document.querySelector(".welcome").innerHTML = parser.host;
 
   // Add listener
-  document.querySelector(".account").addEventListener('keypress', function(e) {
+  document.getElementById("user").addEventListener('keypress', function(e) {
     if (e.which == 13) {
       checkExists();
     }
   });
+  document.getElementById("avatar").addEventListener('click', function(e) {
+    clickFileInput();
+  });
+  document.getElementById('name').addEventListener('keypress', function(e) {
+    if (e.which == 13) {
+      updateProfile();
+    }
+  });
 
-  document.querySelector(".schema").innerHTML = accURL.schema;
-  document.querySelector(".domain").innerHTML = accURL.host;
+  document.getElementById("schema").innerHTML = accURL.schema;
+  document.getElementById("domain").innerHTML = accURL.host;
 
   // Availability
   resetAvailability();
 
   setStep(1);
 
-  document.querySelector(".account").scrollIntoView();
+  document.getElementById("user").scrollIntoView();
 }
 
 var resetAvailability = function() {
   document.getElementById("profile").style.display = "none";
-  document.querySelector(".status").innerHTML = '';
-  document.querySelector(".illegal").style.display = "none";
-  document.querySelector(".createacc").style.display = "none";
-  document.querySelector(".check").style.display = "";
-  document.querySelector(".accountinfo").classList.remove('green');
-  document.querySelector(".accountinfo").style.display = "none";
-  document.querySelector(".check").classList.add("disabled");
-  document.querySelector(".createacc").classList.remove("greenbg");
-  document.querySelector(".createacc").classList.add("disabled");
-  document.querySelector(".return").style.display = "none";
-  document.querySelector(".done").style.display = "none";
+  document.getElementById("status").innerHTML = '';
+  document.getElementById("claim").classList.add("hidden");
+  document.getElementById("illegal").style.display = "none";
+  document.getElementById("check").style.display = "";
+  document.getElementById("accountinfo").classList.remove('green');
+  document.getElementById("accountinfo").style.display = "none";
+  document.getElementById("check").classList.add("disabled");
+  document.getElementById("finish").classList.add('disabled');
+  document.getElementById("finished").style.display = "none";
+  document.getElementById("return").style.display = "none";
+  document.getElementById("done").style.display = "none";
 }
 
 var makeURI = function(username) {
@@ -83,9 +91,26 @@ var makeURI = function(username) {
   return null;
 }
 
+var validateProfile = function() {
+  var name = document.querySelector(".fullname");
+  var pic = document.querySelector('.profilepic').getAttribute('src');
+  var finish = document.getElementById('finish');
+  if (name.value.length > 0 && pic && pic.length > 0) {
+    finish.classList.remove('disabled');
+  } else {
+    finish.classList.add('disabled');
+  }
+
+  if (name.value.lenth === 0) {
+    name.classList.add('illegal');
+  }
+  if (pic && pic.lenth === 0) {
+  }
+}
+
 var validateAccount = function() {
   resetAvailability();
-  var account = document.querySelector(".account").value;
+  var account = document.getElementById("user").value;
   // cleaup
   account = account.toLowerCase().replace(/\s+/g, '-');
   if (account.indexOf('-') === 0) {
@@ -95,47 +120,54 @@ var validateAccount = function() {
   if (account.length === 0) {
     resetAvailability();
   } else if (re.test(account)) {
-    document.querySelector(".account").value = account;
-    document.querySelector(".username").innerHTML = account;
-    document.querySelector(".accountinfo").style.display = "";
-    document.querySelector(".check").classList.remove("disabled");
-    document.querySelector(".createacc").style.pointerEvents = "";
-    document.querySelector(".createacc").classList.add("greenbg");
-    document.querySelector(".createacc").classList.remove("disabled");
+    document.getElementById("user").value = account;
+    document.getElementById("username").innerHTML = account;
+    document.getElementById("accountinfo").style.display = "";
+    document.getElementById("check").classList.remove("disabled");
   } else {
     resetAvailability();
-    document.querySelector(".illegal").style.display = "";
+    document.getElementById("illegal").style.display = "";
   }
 };
 
 
 var isAvailable = function(url) {
-  document.querySelector(".createacc").style.display = "";
-  document.querySelector(".check").style.display = "none";
-  document.getElementById("profile").style.display = "";
-  document.querySelector(".accountinfo").classList.add('green');
-  document.querySelector(".accountinfo").classList.remove('red');
+  var email = document.getElementById("email");
+  var status = document.getElementById("status");
+  status.innerHTML = " is available.";
+  if (email.value && email.value.length > 0) {
+    status.innerHTML += " Do you want it?";
+    document.getElementById("claim").classList.remove("hidden");
+  } else {
+    status.innerHTML += "<br><span class=\"red\">Please provide a valid email before proceeding.</span>";
+    email.classList.add('illegal');
+    email.focus();
+  }
+  document.getElementById("check").classList.add("disabled");
+  // document.getElementById("profile").style.display = "";
+  document.getElementById("accountinfo").classList.add('green');
+  document.getElementById("accountinfo").classList.remove('red');
   window.setTimeout(function () {
-    document.querySelector(".account").focus();
+    document.getElementById("claim").focus();
   }, 0);
 };
 
 var isTaken = function(url) {
-  document.querySelector(".status").innerHTML = "is taken";
-  document.querySelector(".accountinfo").classList.remove('green');
-  document.querySelector(".accountinfo").classList.add('red');
+  document.getElementById("status").innerHTML = " is taken.";
+  document.getElementById("accountinfo").classList.remove('green');
+  document.getElementById("accountinfo").classList.add('red');
 }
 
 var checkExists = function() {
-  var account = document.querySelector(".account").value;
+  var account = document.getElementById("user").value;
   if (account.indexOf('-') === 0) {
     account = account.slice(1);
   }
   if (account.lastIndexOf('-') === account.length - 1) {
     account = account.slice(0, -1)
   }
-  document.querySelector(".account").value = account;
-  document.querySelector(".username").innerHTML = account;
+  document.getElementById("user").value = account;
+  document.getElementById("username").innerHTML = account;
   if (account.length > 0) {
     var url = makeURI(account);
     var http = new XMLHttpRequest();
@@ -145,7 +177,7 @@ var checkExists = function() {
         if (this.readyState == this.DONE) {
           if (this.status === 0) {
             // disconnected
-            document.querySelector(".status").innerHTML = "<strong>could not connect to server</strong>";
+            document.getElementById("status").innerHTML = "<strong>could not connect to server</strong>";
           } else if (this.status === 404) {
             isAvailable(url);
           } else {
@@ -161,28 +193,19 @@ var setStep = function(step) {
   switch(step) {
     case 1:
       // Hide buttons
-      document.querySelector(".update").style.display = "none";
-      document.querySelector(".issue").style.display = "none";
-      // Hide success
-      document.querySelector(".successbox").style.display = "none";
+      document.getElementById("successbox").style.display = "none";
       // Hide example
-      document.querySelector(".accountinfo").style.display = "none";
+      document.getElementById("accountinfo").style.display = "none";
       // Article
-      document.querySelector(".signup").style.display = "";
-      document.querySelector(".finish").style.display = "none";
+      document.getElementById("signup").style.display = "";
       // Scroll into view
-      scrollIntoView('.account');
+      scrollIntoView('#user');
       break;
     case 2:
       // Hide buttons
-      document.querySelector(".createacc").style.display = "none";
-      document.querySelector(".check").style.display = "none";
-      document.querySelector(".issue").style.display = "none";
-      document.querySelector(".update").style.display = "";
-      // Article
-      document.querySelector(".signup").style.display = "none";
-      document.querySelector(".finish").style.display = "";
-      document.querySelector(".successbox").style.display = "none";
+      document.getElementById("successbox").style.display = "none";
+      document.getElementById("signup").style.display = "none";
+      document.getElementById("profile").style.display = "";
       // Scroll into view
       scrollIntoView('.fullname');
       // Gravatar
@@ -194,21 +217,19 @@ var setStep = function(step) {
       break;
     case 3:
       // Hide buttons
-      document.querySelector(".check").style.display = "none";
-      document.querySelector(".createacc").style.display = "none";
-      document.querySelector(".update").style.display = "none";
-      document.querySelector(".issue").style.display = "";
+      document.getElementById("check").style.display = "none";
       // Article
-      document.querySelector(".successbox").style.display = "none";
-      document.querySelector(".signup").style.display = "none";
-      document.querySelector(".finish").style.display = "";
+      document.getElementById("signup").style.display = "none";
+      document.getElementById("profile").style.display = "none";
+      document.getElementById("successbox").style.display = "";
+      document.getElementById("finished").style.display = "";
       // Set cert name
       var certname = document.querySelector('.fullname').value;
       if (certname.length === 0) {
-        account = document.querySelector('.account').value;
+        account = document.getElementById('user').value;
         certname = "My "+account+" WebID account";
       }
-      document.querySelector(".certname").value = certname;
+      document.getElementById("certname").value = certname;
       // Scroll into view
       scrollIntoView();
       break;
@@ -222,7 +243,6 @@ var clickFileInput = function() {
 var loadImageFileAsURL = function() {
   var dataURL;
   var filesSelected = document.getElementById("inputFileToLoad").files;
-  console.log(filesSelected)
   if (filesSelected.length > 0) {
     var fileToLoad = filesSelected[0];
     var img = document.querySelector(".profilepic");
@@ -264,6 +284,10 @@ var loadImageFileAsURL = function() {
         // prepare to upload profile image
         var dataURI = canvas.toDataURL(fileToLoad.type);
 
+        // focus the name input and validate profile
+        document.querySelector('.fullname').focus();
+        validateProfile();
+
         // clean up used elements
         delete canvas;
       };
@@ -273,7 +297,6 @@ var loadImageFileAsURL = function() {
 };
 
 var updateProfile = function() {
-  console.log("Called update");
   var profile = {};
   profile.fullname = document.querySelector('.fullname').value;
 
@@ -348,19 +371,20 @@ var patchProfile = function(profile) {
       if (this.readyState == this.DONE) {
         if (this.status === 200) {
           console.log("Updated profile!");
-          setStep(3);
+          // setStep(3);
+          genCert();
         }
       }
     };
     http.send(query);
   } else {
-    setStep(3);
+    // setStep(3);
   }
 };
 
 var createAccount = function() {
-  var account = document.querySelector(".account").value;
-  var email = document.querySelector(".address").value;
+  var account = document.getElementById("user").value;
+  var email = document.getElementById("email").value;
   if (account.length > 0) {
     var url = makeURI(account) + ACCOUNT_ENDPOINT;
     var data = "username="+account+"&email="+email;
@@ -373,9 +397,9 @@ var createAccount = function() {
           if (this.status === 200) {
             var webid = this.getResponseHeader("User");
             if (webid && webid.length > 0) {
-              document.querySelector(".webid").value = webid;
+              document.getElementById("webid").value = webid;
             }
-            updateProfile();
+            setStep(2);
           } else {
             console.log('Error creating account at '+url);
             setStep(1);
@@ -388,35 +412,33 @@ var createAccount = function() {
 };
 
 var genCert = function() {
-  var account = document.querySelector(".account").value;
-  if (document.querySelector(".certname").value.length === 0) {
-    document.querySelector(".certname").value = "My "+account+" WebID account ";
+  var account = document.getElementById("user").value;
+  if (document.getElementById("certname").value.length === 0) {
+    document.getElementById("certname").value = "My "+account+" WebID account ";
   }
-  document.querySelector(".spkacform").setAttribute("action", makeURI(account)+CERT_ENDPOINT);
-  document.querySelector(".spkacform").submit();
+  document.getElementById("spkacform").setAttribute("action", makeURI(account)+CERT_ENDPOINT);
+  document.getElementById("spkacform").submit();
   certDone();
 };
 
 var certDone = function() {
-  document.querySelector(".finish").style.display = "none";
-  document.querySelector(".issue").style.display = "none";
-  document.querySelector(".notifymessage").innerHTML = "You're all set!<br>A certificate should have been installed in your browser ";
-  document.querySelector(".notifymessage").innerHTML += "(<a href=\"#\" onclick=\"genCert()\">or click here if it hasn't</a>).";
-  document.querySelector(".successbox").style.display = "";
+  // document.getElementById("notifymessage").innerHTML = "You're all set!<br>A certificate should have been installed in your browser ";
+  // document.getElementById("notifymessage").innerHTML += "(<a href=\"#\" onclick=\"genCert()\">or click here if it hasn't</a>).";
 
   // Prompt Firefox users to restart browser in order to use the client cert
-  if (navigator.userAgent.indexOf('Firefox') >= 0) {
-    document.querySelector(".notifymessage").innerHTML += "<br><strong>You must restart your browser to be able to use the certificate.</strong>";
-  }
+  // if (navigator.userAgent.indexOf('Firefox') >= 0) {
+  //   document.getElementById("notifymessage").innerHTML += "<br><strong>You must restart your browser to be able to use the certificate.</strong>";
+  // }
 
   if (queryVals['origin'] && queryVals['origin'].length > 0) {
-    document.querySelector(".return").style.display = "";
+    document.getElementById("return").style.display = "";
   } else {
-    document.querySelector(".done").style.display = "";
+    document.getElementById("done").style.display = "";
   }
 
   // Scroll into view
   scrollIntoView();
+  setStep(3);
 };
 
 var returnToApp = function() {
@@ -440,11 +462,19 @@ var showAccount = function() {
 }
 
 var setGravatar = function() {
-  var email = document.querySelector(".address").value;
+  var email = document.getElementById("email");
   var pic = document.querySelector(".profilepic").src;
-  console.log(pic.length)
-  if (email.length > 0 && pic.length === 0) {
-    var url = 'https://www.gravatar.com/avatar/' + hex_md5(email.replace(' ', '').toLowerCase())+'?d=404&s=300';
+  var status = document.getElementById("status");
+  var claim = document.getElementById("claim");
+  var re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+  if (!re.test(email.value)) {
+    claim.classList.add("hidden");
+    status.innerHTML = "<br><span class=\"red\">Please provide a valid email before proceeding.</span>";
+    email.classList.add('illegal');
+    email.focus();
+  } else if (email.value.length > 0 && pic.length === 0) {
+    document.getElementById("check").classList.remove("disabled");
+    var url = 'https://www.gravatar.com/avatar/' + hex_md5(email.value.replace(' ', '').toLowerCase())+'?d=404&s=300';
     var http = new XMLHttpRequest();
     http.open('HEAD', url);
     http.onreadystatechange = function() {
@@ -453,6 +483,9 @@ var setGravatar = function() {
           document.querySelector(".camera-wrap").classList.add("hidden");
           document.querySelector(".profilepic").classList.remove("hidden");
         }
+        status.innerHTML = " is available. Do you want it?";
+        claim.classList.remove("hidden");
+        claim.focus();
     };
     http.send();
   }

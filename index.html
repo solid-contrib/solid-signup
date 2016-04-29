@@ -3,19 +3,24 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-    <title>Account Setup</title>
+    <title>Account Signup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.1.0/milligram.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="shortcut icon" type="img/png" href="favicon.png">
   </head>
 <body>
-	<div id="pickuser" class="account-setup">
-		<header>
-			<div class="solid center"><img src="images/solid-logo.png"></div>
-		</header>
+  <header class="row">
+    <div class="column column-50 column-offset-25 center">
+      <div class="solid center"><img src="images/logo.png" class="logo"></div>
+      <h3>Create your account</h3>
+    </div>
+  </header>
 
-    <article class="center">
-      <div class="notify successbox">
-        <h1>Success!</h1>
+  <article id="successbox">
+    <div class="row">
+      <div class="column column-50 column-offset-25 center">
         <div class="icon icon-success svg">
           <svg xmlns="http://www.w3.org/2000/svg" width="72px" height="72px">
             <g fill="none" stroke="#43C47A" stroke-width="2">
@@ -24,60 +29,92 @@
             </g>
           </svg>
         </div>
-        <p class="notifymessage"></p>
+        <h3>Success!</h3>
+        <p id="notifymessage"></p>
       </div>
+    </div>
+  </article>
 
-      <div class="signup">
-        <form class="pure-form">
-          <h2>Welcome to <span class="welcome"></span>!</h2>
-          <input type="text" class="account" name="username" value="" placeholder="Pick a user name" oninput="validateAccount()" autofocus>
-          <div class="accountinfo">
-            <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
+  <article id="signup">
+    <div class="row">
+      <div class="column column-50 column-offset-25">
+        <label for="username">Pick a user name</label>
+        <div class="row">
+          <div class="column column-75">
+            <input type="text" class="account" id="user" name="username" value="" oninput="validateAccount()" autofocus>
           </div>
-          <div class="illegal">
-            <small>Only letters, numbers, hyphens (-) and underscores (_) are accepted.</small>
+          <div class="column column-25">
+            <button class="button" id="check" onclick="checkExists()">Check</button>
           </div>
-          <div class="status"></div>
-          <div id="profile">
-            <div class="avatar">
-              <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
-              <a href='#' onclick="clickFileInput()">
-                <div class="camera-wrap">
-                  <span class='camera'></span>
-                </div>
-                <img class="profilepic hidden">
-              </a>
-              <a href="#" class="remove-avatar" onclick="removePicture()">Remove picture</a>
+        </div>
+        <label for="username">Email</label>
+        <div class="row">
+          <div class="column">
+            <input type="email" id="email" name="email" value="" onkeyup="setGravatar()">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column center">
+        <div id="accountinfo">
+          <span id="schema"></span><strong><span id="username"></span></strong>.<span id="domain"></span><span id="status"></span>
+          <button class="button button-small hidden" id="claim" onclick="createAccount()">Yes</button>
+        </div>
+        <div id="illegal">
+          <small>Only letters, numbers, hyphens (-) and underscores (_) are accepted.</small>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <article id="profile">
+    <div class="row">
+      <div class="column center">
+        Now, add some details about yoursef
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column column-50 column-offset-25">
+        <div class="avatar center">
+          <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
+          <div id="avatar">
+            <div class="camera-wrap">
+              <span class='camera'></span>
             </div>
-            <input type="text" class="fullname float-right" name="name" value="" placeholder="Name">
-            <input type="email" class="address float-right" name="email" placeholder="Email" onkeyup="setGravatar()">
+            <img class="profilepic hidden">
           </div>
-        </form>
+          <!-- <a href="#" class="remove-avatar" onclick="removePicture()">Remove picture</a> -->
+        </div>
+        <div class="clearfix"></div>
+        <label for="name">Full name</label>
+        <input type="text" class="fullname" id="name" name="name" value="" onkeyup="validateProfile()">
       </div>
-
-      <div class="finish">
-        <form class="spkacform" method="POST" target="spkacframe">
+    </div>
+    <div class="row">
+      <div class="column column-50 column-offset-25">
+        <form id="spkacform" method="POST" target="spkacframe">
           <keygen id="spkacWebID" name="spkac" challenge="randomchars" keytype="rsa" hidden></keygen>
           <iframe class="hidden" name="spkacframe"></iframe>
-          <input type="text" class="webid hidden" name="webid">
-          <input type="text" class="certname hidden" name="name" value="" placeholder="Your name">
-          <h3>You're almost there!</h3>
-          <p class="justify">In this final step, strong cryptographic keys will be generated and installed in the browser. Using them avoids having to remember passwords, thus offerring increased security.</p>
+          <input type="text" id="webid" class="hidden" name="webid">
+          <input type="text" id="certname" class="hidden" name="name" value="">
+          <!-- <h3 class="center">You're almost there!</h3> -->
+          <!-- <p class="justify">In this final step, strong cryptographic keys will be generated and installed in the browser. Using them avoids having to remember passwords, thus offerring increased security.</p> -->
+          <div class="center">
+            <button id="finish" class="button" onclick="updateProfile()">Finish</button>
+          </div>
         </form>
       </div>
-    </article>
+    </div>
+  </article>
 
-    <footer>
-      <div class="buttons center">
-        <a href="#" class="createacc button greenbg" onclick="createAccount()">Create account</a>
-        <a href="#" class="check button" onclick="checkExists()">Check availability</a>
-        <a href="#" class="update button" onclick="updateProfile()">Update profile (or skip)</a>
-        <a href="#" class="issue button" onclick="genCert()">Generate keys and finish</a>
-        <a href="#" class="return button" onclick="returnToApp()">Go back to the app</a>
-        <a href="#" class="done button" onclick="showAccount()">Take me to my account</a>
-      </div>
-    </footer>
-	</div> <!-- end account setup -->
+  <footer id="finished">
+    <div class="buttons center">
+      <button id="return" class="button" onclick="returnToApp()">Take me back to the app</button>
+      <button id="done" class="button" onclick="showAccount()">Take me to my Solid dashboard</button>
+    </div>
+  </footer>
 
   <!-- Local Javascript -->
   <script src="js/md5.js"></script>
