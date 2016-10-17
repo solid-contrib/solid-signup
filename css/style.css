@@ -466,3 +466,7 @@ input:focus {
 .camera-wrap:hover .camera:after {
   transform: scale(1.025) rotate(-35deg);
 }
+
+#chrome-instructions {
+  display: none;
+}

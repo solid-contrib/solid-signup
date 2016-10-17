@@ -39,6 +39,17 @@
         <form class="pure-form">
           <h2>Welcome to <span class="welcome"></span>!</h2>
           <p>Let's get you set up with an account.</p>
+          <a href="#chrome-instructions" id="toggle-chrome-instructions">Using Chrome? Click here</a>
+          <div id="chrome-instructions">
+            <p>
+              If you're using Chrome, you must first enable Key Generation for this page.
+            </p>
+            <ol>
+              <li>Click on the green padlock to the left of the left of the Address Bar.</li>
+              <li>Click on "Key Generation", and change the value from "Blocked by default" to "Always allow on this site".</li>
+              <li>You're all set!  Go ahead and sign up for Solid.</li>
+            </ol>
+          </div>
           <input type="text" class="account" name="username" value="" placeholder="Pick a user name" oninput="validateAccount()" autofocus>
           <div class="accountinfo">
             <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
