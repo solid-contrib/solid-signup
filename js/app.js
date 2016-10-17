@@ -507,5 +507,12 @@ var scrollIntoView = function(elm) {
   document.querySelector(elm).scrollIntoView(true);
 };
 
+document.getElementById('toggle-chrome-instructions').addEventListener('click', function (event) {
+  var chromeInstructionsElement = document.getElementById('chrome-instructions');
+  chromeInstructionsElement.style.display = chromeInstructionsElement.style.display === ''
+    ? 'block'
+    : ''
+});
+
 // Init app
 init();
