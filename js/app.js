@@ -427,8 +427,7 @@ var genCert = function() {
   allDone();
 };
 
-var allDone = function(webid) {
-  document.querySelector(".webid").value = webid;
+var allDone = function() {
   document.querySelector(".third").style.display = "none";
   document.querySelector(".issue").style.display = "none";
   document.querySelector(".notifymessage").innerHTML = "You're all set! You should receive an email with more details about your new account, if you have provided an address.";
@@ -445,7 +444,7 @@ var allDone = function(webid) {
   scrollIntoView();
 };
 
-var returnToApp = function(webid) {
+var returnToApp = function() {
   var origin = queryVals['origin'];
   if (!origin || origin.length === 0) {
     origin = '*';
