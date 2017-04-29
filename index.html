@@ -16,7 +16,7 @@
 				<div class="clearfix">
 					<div class="float-left inline-block"><a class="first-bullet">1<span class="progress-info left">Create your account</span></a></div>
 					<div class="inline-block"><a class="second-bullet">2<span class="progress-info middle">Add more information</span></a></a></div>
-					<div class="float-right inline-block"><a class="third-bullet">3<span class="progress-info right">Generate keys</span></a></div>
+					<div class="float-right inline-block"><a class="third-bullet">3<span class="progress-info right">All done</span></a></div>
 				</div>
 			</div> <!-- end status-progress -->
 		</header>
@@ -38,18 +38,8 @@
       <div class="first">
         <form class="pure-form">
           <h2>Welcome to <span class="welcome"></span>!</h2>
+          <p style="padding:1em">Warning: this server is for demos only.  It is not secure or backed up.</p>
           <p>Let's get you set up with an account.</p>
-          <a href="#chrome-instructions" id="toggle-chrome-instructions">Using Chrome? Click here</a>
-          <div id="chrome-instructions">
-            <p>
-              If you're using Chrome, you must first enable Key Generation for this page.
-            </p>
-            <ol>
-              <li>Click on the green padlock to the left of the left of the Address Bar.</li>
-              <li>Click on "Key Generation", and change the value from "Blocked by default" to "Always allow on this site".</li>
-              <li>You're all set!  Go ahead and sign up for Solid.</li>
-            </ol>
-          </div>
           <input type="text" class="account" name="username" value="" placeholder="Pick a user name" oninput="validateAccount()" autofocus>
           <div class="accountinfo">
             <span class="schema"></span><strong><span class="username"></span></strong>.<span class="domain"></span>
@@ -59,6 +49,7 @@
           </div>
           <div class="status"></div>
           <div class="email">
+	    <input type="password" class="password" name="password" placeholder="Password">
             <input type="email" class="address" name="email" placeholder="Email (optional)">
             <div class="">
               <small>
@@ -71,7 +62,7 @@
 
       <div class="second">
         <form>
-          <h3>Username reserved...</h3>
+          <h3>Account created...</h3>
           <input type="file" id="inputFileToLoad" class="hidden" onchange="loadImageFileAsURL()">
           <a href='#' onclick="clickFileInput()">
             <div class="camera-wrap">
@@ -85,14 +76,14 @@
       </div>
 
       <div class="third">
-        <form class="spkacform" method="POST" target="spkacframe">
+        <!-- <form class="spkacform" method="POST" target="spkacframe">
           <keygen id="spkacWebID" name="spkac" challenge="randomchars" keytype="rsa" hidden></keygen>
           <iframe class="hidden" name="spkacframe"></iframe>
           <input type="text" class="webid hidden" name="webid">
           <input type="text" class="certname hidden" name="name" value="" placeholder="Your name">
           <h3>You're almost there!</h3>
           <p class="justify">In this final step, strong cryptographic keys will be generated and installed in the browser. Using them avoids having to remember passwords, thus offerring increased security.</p>
-        </form>
+        </form> -->
       </div>
     </article>
 
@@ -101,7 +92,7 @@
         <a href="#" class="createacc button greenbg" onclick="createAccount()">Create account</a>
         <a href="#" class="check button" onclick="checkExists()">Check availability</a>
         <a href="#" class="update button" onclick="updateProfile()">Update profile (or skip)</a>
-        <a href="#" class="issue button" onclick="genCert()">Generate keys and finish</a>
+        <a href="#" class="issue button" onclick="allDone()">Generate keys and finish</a>
         <a href="#" class="return button" onclick="returnToApp()">Go back to the app</a>
         <a href="#" class="done button" onclick="showAccount()">Take me to my account</a>
       </div>

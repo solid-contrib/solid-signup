@@ -1,7 +1,7 @@
 /* ---- CONFIGURATION ----- */
 var DOMAIN = 'https://databox.me';
-var ACCOUNT_ENDPOINT = ',system/newAccount';
-var CERT_ENDPOINT = ',system/newCert';
+var ACCOUNT_ENDPOINT = ',account/new';
+var CERT_ENDPOINT = ',account/cert';
 
 /* ---- DON'T EDIT BELOW ---- */
 var accURL = {};
@@ -239,13 +239,6 @@ var setStep = function(step) {
       document.querySelector(".left").style.display = "none";
       document.querySelector(".middle").style.display = "none";
       document.querySelector(".right").style.display = "";
-      // Set cert name
-      var certname = document.querySelector('.fullname').value;
-      if (certname.length === 0) {
-        account = document.querySelector('.account').value;
-        certname = "My "+account+" WebID account";
-      }
-      document.querySelector(".certname").value = certname;
       // Scroll into view
       scrollIntoView();
       break;
@@ -385,21 +378,24 @@ var patchProfile = function(profile) {
         if (this.status === 200) {
           console.log("Updated profile!");
           setStep(3);
+          allDone()
         }
       }
     };
     http.send(query);
   } else {
     setStep(3);
+    allDone()
   }
 };
 
 var createAccount = function() {
   var account = document.querySelector(".account").value;
   var email = document.querySelector(".address").value;
-  if (account.length > 0) {
+  var pass = document.querySelector(".password").value;
+  if (account.length > 0 && pass.length > 0) {
     var url = makeURI(account) + ACCOUNT_ENDPOINT;
-    var data = "username="+account+"&email="+email;
+    var data = "username="+account+"&email="+email+"&password="+pass;
     var http = new XMLHttpRequest();
     http.open('POST', url);
     http.withCredentials = true;
@@ -407,10 +403,6 @@ var createAccount = function() {
     http.onreadystatechange = function() {
         if (this.readyState == this.DONE) {
           if (this.status === 200) {
-            var webid = this.getResponseHeader("User");
-            if (webid && webid.length > 0) {
-              document.querySelector(".webid").value = webid;
-            }
             setStep(2);
           } else {
             console.log('Error creating account at '+url);
@@ -424,27 +416,21 @@ var createAccount = function() {
 };
 
 var genCert = function() {
-  var account = document.querySelector(".account").value;
+  // var account = document.querySelector(".account").value;
   if (document.querySelector(".certname").value.length === 0) {
     document.querySelector(".certname").value = "My "+account+" WebID account ";
   }
   document.querySelector(".spkacform").setAttribute("action", makeURI(account)+CERT_ENDPOINT);
   document.querySelector(".spkacform").submit();
-  certDone();
+  allDone();
 };
 
-var certDone = function() {
+var allDone = function() {
   document.querySelector(".third").style.display = "none";
   document.querySelector(".issue").style.display = "none";
-  document.querySelector(".notifymessage").innerHTML = "You're all set!<br>A certificate should have been installed in your browser ";
-  document.querySelector(".notifymessage").innerHTML += "(<a href=\"#\" onclick=\"genCert()\">or click here if it hasn't</a>).";
+  document.querySelector(".notifymessage").innerHTML = "You're all set! You should receive an email with more details about your new account, if you have provided an address.";
   document.querySelector(".successbox").style.display = "";
   document.querySelector(".third-bullet").classList.add("completed");
-
-  // Prompt Firefox users to restart browser in order to use the client cert
-  if (navigator.userAgent.indexOf('Firefox') >= 0) {
-    document.querySelector(".notifymessage").innerHTML += "<br><strong>You must restart your browser to be able to use the certificate.</strong>";
-  }
 
   if (queryVals['origin'] && queryVals['origin'].length > 0) {
     document.querySelector(".return").style.display = "";
@@ -506,13 +492,6 @@ var scrollIntoView = function(elm) {
   }
   document.querySelector(elm).scrollIntoView(true);
 };
-
-document.getElementById('toggle-chrome-instructions').addEventListener('click', function (event) {
-  var chromeInstructionsElement = document.getElementById('chrome-instructions');
-  chromeInstructionsElement.style.display = chromeInstructionsElement.style.display === ''
-    ? 'block'
-    : ''
-});
 
 // Init app
 init();

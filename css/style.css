@@ -69,7 +69,7 @@ form {
 	padding: 0 10px 0 10px;
 }
 
-input[type=text],input[type=email]  {
+input[type=text],input[type=email],input[type=password]  {
 	width: 100%;
 	padding: 1em 1em;
     display: inline-block;
@@ -465,8 +465,4 @@ input:focus {
 }
 .camera-wrap:hover .camera:after {
   transform: scale(1.025) rotate(-35deg);
-}
-
-#chrome-instructions {
-  display: none;
 }
