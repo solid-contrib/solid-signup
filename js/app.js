@@ -4,6 +4,7 @@ var ACCOUNT_ENDPOINT = ',account/new';
 var CERT_ENDPOINT = ',account/cert';
 
 /* ---- DON'T EDIT BELOW ---- */
+var webid = '';
 var accURL = {};
 var queryVals = (function(a) {
     if (a == "") return {};
@@ -376,7 +377,7 @@ var patchProfile = function(profile) {
     http.onreadystatechange = function() {
       if (this.readyState == this.DONE) {
         if (this.status === 200) {
-          console.log("Updated profile!");
+          console.log("Updated profile ", webid);
           setStep(3);
           allDone()
         }
@@ -403,6 +404,7 @@ var createAccount = function() {
     http.onreadystatechange = function() {
         if (this.readyState == this.DONE) {
           if (this.status === 200) {
+            webid = this.getResponseHeader('User')
             setStep(2);
           } else {
             console.log('Error creating account at '+url);
@@ -425,7 +427,8 @@ var genCert = function() {
   allDone();
 };
 
-var allDone = function() {
+var allDone = function(webid) {
+  document.querySelector(".webid").value = webid;
   document.querySelector(".third").style.display = "none";
   document.querySelector(".issue").style.display = "none";
   document.querySelector(".notifymessage").innerHTML = "You're all set! You should receive an email with more details about your new account, if you have provided an address.";
@@ -442,18 +445,18 @@ var allDone = function() {
   scrollIntoView();
 };
 
-var returnToApp = function() {
+var returnToApp = function(webid) {
   var origin = queryVals['origin'];
   if (!origin || origin.length === 0) {
     origin = '*';
   }
   // send to parent window
   if (window.opener) {
-    window.opener.postMessage('User:'+document.querySelector(".webid").value, origin);
+    window.opener.postMessage('User:'+webid, origin);
     window.close();
   } else {
     // send to parent iframe creator
-    parent.postMessage('User:'+document.querySelector(".webid").value, origin);
+    parent.postMessage('User:'+webid, origin);
   }
 };
 
